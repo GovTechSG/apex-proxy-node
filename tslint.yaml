@@ -1,0 +1,60 @@
+defaultSeverity: error
+extends:
+  - tslint:recommended
+  - tslint-config-prettier # used to disable formatting rules (done by prettier)
+rules:
+  max-line-length: # prettier doesn't handle long string
+    - true
+    - 120
+  object-literal-sort-keys: false
+  no-unused-variable:
+    - true
+    - check-parameters
+    - ignore-pattern: ^_
+  member-access: false
+  variable-name:
+    - true
+    - ban-keywords
+    - check-format
+    - allow-leading-underscore
+    - allow-pascal-case
+  # tsling-microsoft-contrib configuration
+  chai-vague-errors: true
+  import-name:
+    - true
+    - nodeFetch: fetch # allow node-fetch to be imported as fetch
+  insecure-random: true
+  mocha-avoid-only: true
+  mocha-unneeded-done: true
+  no-banned-terms: true
+  no-console: false
+  no-constant-condition: true
+  no-control-regex: true
+  no-delete-expression: true
+  no-function-constructor-with-string-args: true
+  no-function-expression: true
+  no-http-string: true
+  no-increment-decrement: true
+  no-invalid-regexp: true
+  no-octal-literal: true
+  no-regex-spaces: true
+  no-relative-imports: false # find a way to enable this one
+  no-single-line-block-comment: true
+  no-string-based-set-interval: true
+  no-string-based-set-timeout: true
+  no-typeof-undefined: true
+  no-unnecessary-bind: true
+  no-unnecessary-field-initialization: true
+  no-unnecessary-local-variable: true
+  no-unnecessary-override: true
+  no-useless-files: true
+  no-with-statement: true
+  non-literal-require: true
+  possible-timing-attack: true
+  prefer-array-literal: true
+  prefer-type-cast: true
+  promise-must-complete: true
+  semicolon: [true, "always"]
+  use-named-parameter: true
+rulesDirectory: node_modules/tslint-microsoft-contrib
+

@@ -1,0 +1,19 @@
+# basic ignored stuff
+node_modules
+dist
+coverage
+*.log
+.git-*
+.env
+
+**/.DS_Store
+
+# VSCode
+\.vscode/
+
+#Intellij
+.idea
+*.iml
+
+#Istanbul
+.nyc_output

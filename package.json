@@ -1,0 +1,22 @@
+{
+  "name": "apexproxynode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.ts",
+  "scripts": {
+    "compile": "tsc && node dist/server.js",
+    "dev": "nodemon -e ts --exec \"npm run compile\""
+  },
+  "author": "Raymond Yeh <yehjxraymond@gmail.com> (https://geek.sg)",
+  "license": "ISC",
+  "dependencies": {
+    "http": "^0.0.0",
+    "http-proxy": "^1.17.0",
+    "lodash": "^4.17.10",
+    "node-apex-api-security": "^0.7.6"
+  },
+  "devDependencies": {
+    "@types/http-proxy": "^1.16.2",
+    "nodemon": "^1.17.5"
+  }
+}

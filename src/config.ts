@@ -1,6 +1,7 @@
 import { DEFAULT_MODE } from './constants';
 import { IConfig } from './types';
 import { isTruthy } from './utils';
+import path from 'path';
 
 export default ():IConfig => {
   const {
@@ -25,7 +26,7 @@ export default ():IConfig => {
     l1internal: isTruthy(L1_INTERNAL),
     secret: L1_SECRET ? L1_SECRET : undefined ,
     l2internal: isTruthy(L2_INTERNAL),
-    keyFile: L2_KEY_FILE ? L2_KEY_FILE : undefined ,
+    keyFile: L2_KEY_FILE ? path.join(__dirname, '..', L2_KEY_FILE) : undefined ,
     keyString: L2_KEY_STRING ? L2_KEY_STRING : undefined ,
   };
 }

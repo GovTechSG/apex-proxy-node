@@ -5,7 +5,8 @@
   "main": "src/server.ts",
   "scripts": {
     "compile": "tsc && node dist/server.js",
-    "dev": "nodemon -e ts --exec \"npm run compile\""
+    "dev": "nodemon -e ts --exec \"npm run compile\"",
+    "serve": "node ./dist/server.js"
   },
   "author": "Raymond Yeh <yehjxraymond@gmail.com> (https://geek.sg)",
   "license": "ISC",

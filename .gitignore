@@ -1,6 +1,5 @@
 # basic ignored stuff
 node_modules
-dist
 coverage
 *.log
 .git-*

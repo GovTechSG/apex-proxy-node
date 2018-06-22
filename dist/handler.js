@@ -14,7 +14,7 @@ exports.l1Signature = (req, config) => {
         secret,
         authPrefix,
         httpMethod: method,
-        urlPath: url,
+        urlPath: `http://${config.host}:${config.port}${url}`,
     };
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };
@@ -30,11 +30,12 @@ exports.l2Signature = (req, config) => {
         keyFile,
         authPrefix,
         httpMethod: method,
-        urlPath: url,
+        urlPath: `http://${config.host}:${config.port}${url}`,
     };
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };
 exports.proxyHandler = (proxyReq, req, config) => {
+    proxyReq.setHeader('Host', config.host);
     const signatureL1 = exports.l1Signature(req, config);
     const signatureL2 = exports.l2Signature(req, config);
     const signature = (signatureL1 && signatureL2) ? `${signatureL1}, ${signatureL2}` : signatureL1 || signatureL2;

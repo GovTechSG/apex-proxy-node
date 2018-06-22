@@ -2,7 +2,7 @@ import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
 import httpProxy from 'http-proxy';
 import path from 'path';
-import getConfig from './config';
+import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
 
 // Populate environment variable from dotenv file if applicable
@@ -18,10 +18,10 @@ const proxy = httpProxy.createProxyServer({
   target:{
     host: config.host,
     port: config.port,
-  },
+  }
 });
 
-proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
+proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage, res) => {
   proxyHandler(proxyReq, req, config);
 });
 
@@ -29,5 +29,5 @@ const server = http.createServer((req, res) => {
   proxy.web(req, res);
 });
 
-console.log(`Listening on port ${config.localPort}`);
+printConfig();
 server.listen(config.localPort);

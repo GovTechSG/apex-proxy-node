@@ -17,7 +17,7 @@ export const l1Signature = (req: http.IncomingMessage, config: IConfig): string 
     secret,
     authPrefix,
     httpMethod: method,
-    urlPath: `http://${config.host}:${config.port}${url}`,
+    urlPath: `https://${config.host}:${config.port}${url}`,
   };
   return ApiSigningUtil.getSignatureToken(opts);
 }
@@ -34,7 +34,7 @@ export const l2Signature = (req: http.IncomingMessage, config: IConfig): string 
     keyFile,
     authPrefix,
     httpMethod: method,
-    urlPath: `http://${config.host}:${config.port}${url}`,
+    urlPath: `https://${config.host}:${config.port}${url}`,
   };
   return ApiSigningUtil.getSignatureToken(opts);
 }

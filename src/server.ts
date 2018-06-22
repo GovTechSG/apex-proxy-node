@@ -16,6 +16,7 @@ const config = getConfig();
 
 const proxy = httpProxy.createProxyServer({
   target:{
+    protocol: 'https:',
     host: config.host,
     port: config.port,
   }
@@ -26,7 +27,9 @@ proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage, r
 });
 
 const server = http.createServer((req, res) => {
-  proxy.web(req, res);
+  proxy.web(req, res, {
+    changeOrigin: true,
+  });
 });
 
 printConfig();

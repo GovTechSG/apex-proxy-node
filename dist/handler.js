@@ -14,7 +14,7 @@ exports.l1Signature = (req, config) => {
         secret,
         authPrefix,
         httpMethod: method,
-        urlPath: `http://${config.host}:${config.port}${url}`,
+        urlPath: `https://${config.host}:${config.port}${url}`,
     };
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };
@@ -30,7 +30,7 @@ exports.l2Signature = (req, config) => {
         keyFile,
         authPrefix,
         httpMethod: method,
-        urlPath: `http://${config.host}:${config.port}${url}`,
+        urlPath: `https://${config.host}:${config.port}${url}`,
     };
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };

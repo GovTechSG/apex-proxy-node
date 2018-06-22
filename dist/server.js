@@ -19,6 +19,7 @@ catch (ex) {
 const config = config_1.getConfig();
 const proxy = http_proxy_1.default.createProxyServer({
     target: {
+        protocol: 'https:',
         host: config.host,
         port: config.port,
     }
@@ -27,7 +28,9 @@ proxy.on('proxyReq', (proxyReq, req, res) => {
     handler_1.proxyHandler(proxyReq, req, config);
 });
 const server = http_1.default.createServer((req, res) => {
-    proxy.web(req, res);
+    proxy.web(req, res, {
+        changeOrigin: true,
+    });
 });
 config_1.printConfig();
 server.listen(config.localPort);

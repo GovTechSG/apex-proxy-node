@@ -1,4 +1,5 @@
 export interface IConfig {
+  debug: boolean;
   localPort: string;
   // REWRITE or APPEND Signature to Authorization header
   mode: string;

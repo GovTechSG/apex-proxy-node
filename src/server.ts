@@ -23,6 +23,9 @@ const proxy = httpProxy.createProxyServer({
 });
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage, res) => {
+  if(config.debug){
+    console.log('REQUEST: ', req);
+  }
   proxyHandler(proxyReq, req, config);
 });
 

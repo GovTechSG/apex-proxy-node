@@ -7,8 +7,9 @@ const constants_1 = require("./constants");
 const utils_1 = require("./utils");
 const path_1 = __importDefault(require("path"));
 exports.getConfig = () => {
-    const { AUTH_MODE, LOCAL_PORT, TARGET_HOST, TARGET_PORT, APP_ID, L1_INTERNAL, L1_SECRET, L2_INTERNAL, L2_KEY_FILE, L2_KEY_STRING, } = process.env;
+    const { AUTH_MODE, LOCAL_PORT, TARGET_HOST, TARGET_PORT, APP_ID, L1_INTERNAL, L1_SECRET, L2_INTERNAL, L2_KEY_FILE, L2_KEY_STRING, DEBUG, } = process.env;
     return {
+        debug: DEBUG,
         mode: AUTH_MODE || constants_1.DEFAULT_MODE,
         localPort: LOCAL_PORT,
         host: TARGET_HOST,
@@ -26,7 +27,7 @@ exports.printConfig = () => {
     console.log(`Auth Mode: ${config.mode}`);
     console.log(`L1 Auth Enabled: ${!!config.secret}`);
     console.log(`L2 Auth Enabled: ${!!(config.keyFile || config.keyString)}`);
-    console.log(`Target: http://${config.host}:${config.port}`);
+    console.log(`Target: ${config.host}:${config.port}`);
     console.log(`Server listening on port ${config.localPort}`);
 };
 exports.default = exports.getConfig;

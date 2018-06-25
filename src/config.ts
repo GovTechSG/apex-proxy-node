@@ -35,6 +35,7 @@ export const getConfig = ():IConfig => {
 
 export const printConfig = () => {
   const config = getConfig();
+  console.log(`Debug Mode: ${config.debug}`);
   console.log(`Auth Mode: ${config.mode}`);
   console.log(`L1 Auth Enabled: ${!!config.secret}`);
   console.log(`L2 Auth Enabled: ${!!(config.keyFile||config.keyString)}`);

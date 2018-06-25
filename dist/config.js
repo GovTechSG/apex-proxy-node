@@ -9,7 +9,7 @@ const path_1 = __importDefault(require("path"));
 exports.getConfig = () => {
     const { AUTH_MODE, LOCAL_PORT, TARGET_HOST, TARGET_PORT, APP_ID, L1_INTERNAL, L1_SECRET, L2_INTERNAL, L2_KEY_FILE, L2_KEY_STRING, DEBUG, } = process.env;
     return {
-        debug: DEBUG,
+        debug: utils_1.isTruthy(DEBUG),
         mode: AUTH_MODE || constants_1.DEFAULT_MODE,
         localPort: LOCAL_PORT,
         host: TARGET_HOST,
@@ -24,6 +24,7 @@ exports.getConfig = () => {
 };
 exports.printConfig = () => {
     const config = exports.getConfig();
+    console.log(`Debug Mode: ${config.debug}`);
     console.log(`Auth Mode: ${config.mode}`);
     console.log(`L1 Auth Enabled: ${!!config.secret}`);
     console.log(`L2 Auth Enabled: ${!!(config.keyFile || config.keyString)}`);

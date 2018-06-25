@@ -25,6 +25,9 @@ const proxy = http_proxy_1.default.createProxyServer({
     }
 });
 proxy.on('proxyReq', (proxyReq, req, res) => {
+    if (config.debug) {
+        console.log('REQUEST: ', req);
+    }
     handler_1.proxyHandler(proxyReq, req, config);
 });
 const server = http_1.default.createServer((req, res) => {

@@ -39,16 +39,16 @@ export const getConfig = ():IConfig => {
     gateway1Type: GATEWAY_1_TYPE,
     gateway1UrlPrefix: GATEWAY_1_URL_PREFIX,
     gateway1AppId: GATEWAY_1_APP_ID,
-    gateway1Secret: GATEWAY_1_SECRET,
-    gateway1KeyString: GATEWAY_1_KEY_STRING,
-    gateway1KeyFile: GATEWAY_1_KEY_FILE,
+    gateway1Secret: GATEWAY_1_SECRET ? GATEWAY_1_SECRET : undefined,
+    gateway1KeyString: GATEWAY_1_KEY_STRING ? GATEWAY_1_KEY_STRING : undefined,
+    gateway1KeyFile: GATEWAY_1_KEY_FILE ? path.join(__dirname, '..', GATEWAY_1_KEY_FILE) : undefined,
 
     gateway2Type: GATEWAY_2_TYPE,
     gateway2UrlPrefix: GATEWAY_2_URL_PREFIX,
     gateway2AppId: GATEWAY_2_APP_ID,
-    gateway2Secret: GATEWAY_2_SECRET,
-    gateway2KeyString: GATEWAY_2_KEY_STRING,
-    gateway2KeyFile: GATEWAY_2_KEY_FILE,
+    gateway2Secret: GATEWAY_2_SECRET ? GATEWAY_2_SECRET : undefined,
+    gateway2KeyString: GATEWAY_2_KEY_STRING ? GATEWAY_2_KEY_STRING : undefined,
+    gateway2KeyFile: GATEWAY_2_KEY_FILE ? path.join(__dirname, '..', GATEWAY_2_KEY_FILE) : undefined,
   };
 }
 

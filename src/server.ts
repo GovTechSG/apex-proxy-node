@@ -42,7 +42,6 @@ app.use((req, res) => proxy.web(req, res, {
   changeOrigin: true,
 }));
 
-
 const server = http.createServer(app);
 
 printConfig();

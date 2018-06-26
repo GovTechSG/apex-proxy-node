@@ -2,6 +2,7 @@ export interface IConfig {
   debug: boolean;
   secure: boolean;
   localPort: string;
+
   // REWRITE or APPEND Signature to Authorization header
   mode: string;
 
@@ -9,15 +10,17 @@ export interface IConfig {
   host: string;
   port: string;
 
-  // App ID in Apex
-  appId: string;
-
-  // For L1 Authentication
-  l1internal?: boolean;
-  secret?: string;
-
-  // For L2 Authentication
-  l2internal?: boolean;
-  keyString?: string;
-  keyFile?: string;
+  gateway1Type? : string;
+  gateway1UrlPrefix? : string;
+  gateway1AppId? : string;
+  gateway1Secret? : string;
+  gateway1KeyString? : string;
+  gateway1KeyFile? : string;
+  
+  gateway2Type? : string;
+  gateway2UrlPrefix? : string;
+  gateway2AppId? : string;
+  gateway2Secret? : string;
+  gateway2KeyString? : string;
+  gateway2KeyFile? : string;
 }

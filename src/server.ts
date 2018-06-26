@@ -4,6 +4,7 @@ import httpProxy from 'http-proxy';
 import path from 'path';
 import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
+import {get} from 'lodash';
 
 // Populate environment variable from dotenv file if applicable
 try {
@@ -15,19 +16,21 @@ try {
 const config = getConfig();
 
 const proxy = httpProxy.createProxyServer({
-  target:{
-    protocol: 'https:',
-    host: config.host,
-    port: config.port,
-  },
+  target: `https://${config.host}:${config.port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
 });
 
-proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage, res) => {
-  if(config.debug){
-    console.log('REQUEST: ', req);
-  }
+proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
   proxyHandler(proxyReq, req, config);
+});
+
+config.debug && proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
+  console.log(get(proxyRes, 'req._header'));
+});
+
+proxy.on('error', (err, req: http.IncomingMessage) => {
+  console.log(err);
+  console.log(req);
 });
 
 const server = http.createServer((req, res) => {

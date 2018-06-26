@@ -16,6 +16,7 @@ export const getConfig = ():IConfig => {
     L2_KEY_FILE,
     L2_KEY_STRING,
     DEBUG,
+    SECURE,
   } = process.env;
 
   return {
@@ -30,12 +31,14 @@ export const getConfig = ():IConfig => {
     l2internal: isTruthy(L2_INTERNAL),
     keyFile: L2_KEY_FILE ? path.join(__dirname, '..', L2_KEY_FILE) : undefined ,
     keyString: L2_KEY_STRING ? L2_KEY_STRING : undefined ,
+    secure: isTruthy(SECURE),
   };
 }
 
 export const printConfig = () => {
   const config = getConfig();
   console.log(`Debug Mode: ${config.debug}`);
+  console.log(`Secure Mode: ${config.secure}`);
   console.log(`Auth Mode: ${config.mode}`);
   console.log(`L1 Auth Enabled: ${!!config.secret}`);
   console.log(`L2 Auth Enabled: ${!!(config.keyFile||config.keyString)}`);

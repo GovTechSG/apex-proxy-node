@@ -19,7 +19,8 @@ const proxy = httpProxy.createProxyServer({
     protocol: 'https:',
     host: config.host,
     port: config.port,
-  }
+  },
+  secure: config.secure,
 });
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage, res) => {

@@ -22,7 +22,8 @@ const proxy = http_proxy_1.default.createProxyServer({
         protocol: 'https:',
         host: config.host,
         port: config.port,
-    }
+    },
+    secure: config.secure,
 });
 proxy.on('proxyReq', (proxyReq, req, res) => {
     if (config.debug) {

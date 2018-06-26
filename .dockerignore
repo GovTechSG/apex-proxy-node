@@ -1,0 +1,6 @@
+test/
+.git/
+.env-example
+.docker-compose.yml
+.tslint.yaml
+

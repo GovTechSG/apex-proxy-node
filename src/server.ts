@@ -5,6 +5,8 @@ import path from 'path';
 import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
 import {get} from 'lodash';
+import connect from 'connect';
+import bodyParser from 'body-parser';
 
 // Populate environment variable from dotenv file if applicable
 try {
@@ -24,8 +26,8 @@ proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) =
   proxyHandler(proxyReq, req, config);
 });
 
-config.debug && proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
-  console.log(get(proxyRes, 'req._header'));
+proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
+  config.debug && console.log(get(proxyRes, 'req._header'));
 });
 
 proxy.on('error', (err, req: http.IncomingMessage) => {
@@ -33,11 +35,15 @@ proxy.on('error', (err, req: http.IncomingMessage) => {
   console.log(req);
 });
 
-const server = http.createServer((req, res) => {
-  proxy.web(req, res, {
-    changeOrigin: true,
-  });
-});
+const app = connect();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use((req, res) => proxy.web(req, res, {
+  changeOrigin: true,
+}));
+
+
+const server = http.createServer(app);
 
 printConfig();
 server.listen(config.localPort);

@@ -106,6 +106,17 @@ export const proxyHandler = (
 ) => {
   proxyReq.setHeader('Host', config.host);
 
+  const gate1Signature = firstGateSignature(req, config);
+  const gate2Signature = secondGateSignature(req, config);
+  const signature = (gate1Signature && gate2Signature) ? `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
+
+  if(signature && config.mode === MODE.REWRITE){
+    proxyReq.setHeader('Authorization', signature);
+  }else if(signature && config.mode === MODE.APPEND){
+    const authorization = get(req, 'headers.authorization');
+    proxyReq.setHeader('Authorization', authorization ? `${signature}, ${authorization}` : signature);
+  }
+
   const body = get(req, 'body');
   if(body){
     const contentType = proxyReq.getHeader('Content-Type');
@@ -123,16 +134,5 @@ export const proxyHandler = (
       proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
       proxyReq.write(bodyData);
     }
-  }
-
-  const gate1Signature = firstGateSignature(req, config);
-  const gate2Signature = secondGateSignature(req, config);
-  const signature = (gate1Signature && gate2Signature) ? `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
-
-  if(signature && config.mode === MODE.REWRITE){
-    proxyReq.setHeader('Authorization', signature);
-  }else if(signature && config.mode === MODE.APPEND){
-    const authorization = get(req, 'headers.authorization');
-    proxyReq.setHeader('Authorization', authorization ? `${signature}, ${authorization}` : signature);
   }
 }

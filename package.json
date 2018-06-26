@@ -14,13 +14,11 @@
     "body-parser": "^1.18.3",
     "connect": "^3.6.6",
     "dotenv": "^6.0.0",
-    "express": "^4.16.3",
     "http": "^0.0.0",
     "http-proxy": "^1.17.0",
     "lodash": "^4.17.10",
     "node-apex-api-security": "^0.7.6",
-    "querystring": "^0.2.0",
-    "stream-array": "^1.1.2"
+    "querystring": "^0.2.0"
   },
   "devDependencies": {
     "@types/connect": "^3.4.32",

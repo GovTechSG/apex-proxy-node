@@ -7,7 +7,7 @@ const constants_1 = require("./constants");
 const lodash_1 = require("lodash");
 const node_apex_api_security_1 = require("node-apex-api-security");
 const querystring_1 = __importDefault(require("querystring"));
-exports.signature = ({ type, secret, keyFile, keyString, appId, httpMethod, urlPath, }) => {
+exports.signature = ({ type, secret, keyFile, keyString, appId, httpMethod, urlPath, }, config) => {
     let authPrefix;
     if (type === 'INTERNAL') {
         if (secret) {
@@ -34,6 +34,7 @@ exports.signature = ({ type, secret, keyFile, keyString, appId, httpMethod, urlP
         authPrefix,
         urlPath,
     };
+    config && config.debug && console.log("Signing opts:", opts);
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };
 exports.firstGateSignature = (req, config) => {
@@ -41,7 +42,7 @@ exports.firstGateSignature = (req, config) => {
         return;
     const { method, url } = req;
     const { host, port, gateway1UrlPrefix, gateway2UrlPrefix, gateway1Type, gateway1AppId, gateway1Secret, gateway1KeyString, gateway1KeyFile, } = config;
-    const urlPath = `https://${host}:${port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}/${url}`;
+    const urlPath = `https://${host}:${port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
     return exports.signature({
         type: gateway1Type,
         secret: gateway1Secret,
@@ -50,14 +51,14 @@ exports.firstGateSignature = (req, config) => {
         appId: gateway1AppId,
         httpMethod: method,
         urlPath,
-    });
+    }, config);
 };
 exports.secondGateSignature = (req, config) => {
     if (!config.gateway2AppId || !(config.gateway2Secret || config.gateway2KeyFile || config.gateway2KeyString))
         return;
     const { method, url } = req;
     const { host, port, gateway2UrlPrefix, gateway2Type, gateway2AppId, gateway2Secret, gateway2KeyString, gateway2KeyFile, } = config;
-    const urlPath = `https://${host}:${port}/${gateway2UrlPrefix}/${url}`;
+    const urlPath = `https://${host}:${port}/${gateway2UrlPrefix}${url}`;
     return exports.signature({
         type: gateway2Type,
         secret: gateway2Secret,
@@ -66,7 +67,7 @@ exports.secondGateSignature = (req, config) => {
         appId: gateway2AppId,
         httpMethod: method,
         urlPath,
-    });
+    }, config);
 };
 exports.proxyHandler = (proxyReq, req, config) => {
     proxyReq.setHeader('Host', config.host);

@@ -16,7 +16,7 @@ export const signature = ({
   appId,
   httpMethod,
   urlPath,
-}) => {
+}, config?) => {
   let authPrefix;
   if(type === 'INTERNAL'){
     if(secret){
@@ -41,6 +41,8 @@ export const signature = ({
     authPrefix,
     urlPath,
   }
+
+  config && config.debug && console.log("Signing opts:", opts);
   return ApiSigningUtil.getSignatureToken(opts);
 }
 
@@ -60,7 +62,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     gateway1KeyFile,
   } = config;
 
-  const urlPath = `https://${host}:${port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}/${url}`;
+  const urlPath = `https://${host}:${port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
   return signature({
     type: gateway1Type,
     secret: gateway1Secret,
@@ -69,7 +71,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     appId: gateway1AppId,
     httpMethod: method,
     urlPath,
-  });
+  }, config);
 };
 
 export const secondGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
@@ -87,7 +89,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     gateway2KeyFile,
   } = config;
 
-  const urlPath = `https://${host}:${port}/${gateway2UrlPrefix}/${url}`;
+  const urlPath = `https://${host}:${port}/${gateway2UrlPrefix}${url}`;
   return signature({
     type: gateway2Type,
     secret: gateway2Secret,
@@ -96,7 +98,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     appId: gateway2AppId,
     httpMethod: method,
     urlPath,
-  });
+  }, config);
 };
 
 export const proxyHandler = (

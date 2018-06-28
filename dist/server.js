@@ -21,7 +21,7 @@ catch (ex) {
 }
 const config = config_1.getConfig();
 const proxy = http_proxy_1.default.createProxyServer({
-    target: `https://${config.host}:${config.port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
+    target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
     secure: config.secure,
 });
 proxy.on('proxyReq', (proxyReq, req) => {

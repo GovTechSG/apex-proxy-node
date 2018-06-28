@@ -7,9 +7,8 @@ export interface IConfig {
   mode: string;
 
   // Target to forward request to
-  host: string;
-  port: string;
-
+  gateway1Host : string;
+  gateway1Port : string;
   gateway1Type? : string;
   gateway1UrlPrefix? : string;
   gateway1AppId? : string;
@@ -17,6 +16,8 @@ export interface IConfig {
   gateway1KeyString? : string;
   gateway1KeyFile? : string;
   
+  gateway2Host : string;
+  gateway2Port : string;
   gateway2Type? : string;
   gateway2UrlPrefix? : string;
   gateway2AppId? : string;

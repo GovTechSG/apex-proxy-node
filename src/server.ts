@@ -18,7 +18,7 @@ try {
 const config = getConfig();
 
 const proxy = httpProxy.createProxyServer({
-  target: `https://${config.host}:${config.port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
+  target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
 });
 

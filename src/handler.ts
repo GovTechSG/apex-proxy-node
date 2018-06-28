@@ -51,8 +51,8 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
   
   const { method, url } = req;
   const {
-    host,
-    port,
+    gateway1Host,
+    gateway1Port,
     gateway1UrlPrefix,
     gateway2UrlPrefix,
     gateway1Type,
@@ -62,7 +62,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     gateway1KeyFile,
   } = config;
 
-  const urlPath = `https://${host}:${port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
+  const urlPath = `https://${gateway1Host}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
   return signature({
     type: gateway1Type,
     secret: gateway1Secret,
@@ -79,8 +79,8 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
   
   const { method, url } = req;
   const {
-    host,
-    port,
+    gateway2Host,
+    gateway2Port,
     gateway2UrlPrefix,
     gateway2Type,
     gateway2AppId,
@@ -89,7 +89,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     gateway2KeyFile,
   } = config;
 
-  const urlPath = `https://${host}:${port}/${gateway2UrlPrefix}${url}`;
+  const urlPath = `https://${gateway2Host}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
   return signature({
     type: gateway2Type,
     secret: gateway2Secret,
@@ -106,7 +106,7 @@ export const proxyHandler = (
   req: http.IncomingMessage,
   config: IConfig
 ) => {
-  proxyReq.setHeader('Host', config.host);
+  proxyReq.setHeader('Host', config.gateway1Host);
 
   const gate1Signature = firstGateSignature(req, config);
   const gate2Signature = secondGateSignature(req, config);

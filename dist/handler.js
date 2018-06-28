@@ -41,8 +41,8 @@ exports.firstGateSignature = (req, config) => {
     if (!config.gateway1AppId || !(config.gateway1Secret || config.gateway1KeyFile || config.gateway1KeyString))
         return;
     const { method, url } = req;
-    const { host, port, gateway1UrlPrefix, gateway2UrlPrefix, gateway1Type, gateway1AppId, gateway1Secret, gateway1KeyString, gateway1KeyFile, } = config;
-    const urlPath = `https://${host}:${port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
+    const { gateway1Host, gateway1Port, gateway1UrlPrefix, gateway2UrlPrefix, gateway1Type, gateway1AppId, gateway1Secret, gateway1KeyString, gateway1KeyFile, } = config;
+    const urlPath = `https://${gateway1Host}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
     return exports.signature({
         type: gateway1Type,
         secret: gateway1Secret,
@@ -57,8 +57,8 @@ exports.secondGateSignature = (req, config) => {
     if (!config.gateway2AppId || !(config.gateway2Secret || config.gateway2KeyFile || config.gateway2KeyString))
         return;
     const { method, url } = req;
-    const { host, port, gateway2UrlPrefix, gateway2Type, gateway2AppId, gateway2Secret, gateway2KeyString, gateway2KeyFile, } = config;
-    const urlPath = `https://${host}:${port}/${gateway2UrlPrefix}${url}`;
+    const { gateway2Host, gateway2Port, gateway2UrlPrefix, gateway2Type, gateway2AppId, gateway2Secret, gateway2KeyString, gateway2KeyFile, } = config;
+    const urlPath = `https://${gateway2Host}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
     return exports.signature({
         type: gateway2Type,
         secret: gateway2Secret,
@@ -70,7 +70,7 @@ exports.secondGateSignature = (req, config) => {
     }, config);
 };
 exports.proxyHandler = (proxyReq, req, config) => {
-    proxyReq.setHeader('Host', config.host);
+    proxyReq.setHeader('Host', config.gateway1Host);
     const gate1Signature = exports.firstGateSignature(req, config);
     const gate2Signature = exports.secondGateSignature(req, config);
     const signature = (gate1Signature && gate2Signature) ? `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;

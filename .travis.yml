@@ -16,8 +16,9 @@ jobs:
   include:
     - stage: version
       script:
-        - git clone -b ${TRAVIS_COMMIT} https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_JOB_ID};
-        - cd ${TRAVIS_JOB_ID};
+        - echo "B: $TRAVIS_BUILD_ID , J: $TRAVIS_JOB_ID"
+        - git clone -b ${TRAVIS_COMMIT} https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_BUILD_ID};
+        - cd ${TRAVIS_BUILD_ID};
         - docker pull govtechsg/cicd-images:vtscripts-latest;
         - docker run -v "$(pwd):/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;

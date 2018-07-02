@@ -17,7 +17,8 @@ jobs:
     - stage: version
       script:
         - echo "B ${TRAVIS_BUILD_ID} j ${TRAVIS_JOB_ID}";
-        - git clone -b ${TRAVIS_COMMIT} https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_BUILD_ID};
+        - git clone https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_BUILD_ID};
+        - git checkout ${TRAVIS_COMMIT}
         - cd ${TRAVIS_BUILD_ID};
         - docker pull govtechsg/cicd-images:vtscripts-latest;
         - docker run -v "$(pwd):/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;

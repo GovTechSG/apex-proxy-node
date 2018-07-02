@@ -1,3 +1,4 @@
+sudo: required
 language: bash
 services:
   - docker
@@ -7,7 +8,6 @@ branches:
 stages:
   - version
   - build
-  - release
 before_script:
   - docker login -u "${DH_USERNAME}" -p "${DH_PASSWORD}"
 after_script:
@@ -16,14 +16,14 @@ jobs:
   include:
     - stage: version
       script:
-        - git clone -b ${TRAVIS_COMMIT} https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_JOB_ID}
-				- cd ${TRAVIS_JOB_ID}
-        - docker pull govtechsg/cicd-images:vtscripts-latest
-        - docker run -v "$(pwd):/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i
+        - git clone -b ${TRAVIS_COMMIT} https://github.com/${TRAVIS_REPO_SLUG}.git ${TRAVIS_JOB_ID};
+				- cd ${TRAVIS_JOB_ID};
+        - docker pull govtechsg/cicd-images:vtscripts-latest;
+        - docker run -v "$(pwd):/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
       	- git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;
     - stage: build
       script:
-		  	- echo "Current Commit: $TRAVIS_COMMIT"
-		  	- CURRENT_TAG=$(git describe --exact-match ${TRAVIS_COMMIT})
-        - docker build -t "${DH_REPO}":"${CURRENT_TAG}"
-        - docker push "${DH_REPO}_":"${CURRENT_TAG}"
+		  	- echo "Current Commit: $TRAVIS_COMMIT";
+		  	- CURRENT_TAG=$(git describe --exact-match "$TRAVIS_COMMIT");
+        - docker build -t "${DH_REPO}":"${CURRENT_TAG}";
+        - docker push "${DH_REPO}_":"${CURRENT_TAG}";

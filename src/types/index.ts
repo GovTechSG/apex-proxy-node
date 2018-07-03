@@ -15,7 +15,8 @@ export interface IConfig {
   gateway1Secret? : string;
   gateway1KeyString? : string;
   gateway1KeyFile? : string;
-  
+  gateway1Passphrase? : string;
+
   gateway2Host : string;
   gateway2Port : string;
   gateway2Type? : string;
@@ -24,4 +25,5 @@ export interface IConfig {
   gateway2Secret? : string;
   gateway2KeyString? : string;
   gateway2KeyFile? : string;
+  gateway2Passphrase? : string;
 }

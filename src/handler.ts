@@ -13,6 +13,7 @@ export const signature = ({
   secret,
   keyFile,
   keyString,
+  passphrase,
   appId,
   httpMethod,
   urlPath,
@@ -37,6 +38,7 @@ export const signature = ({
     secret,
     keyString,
     keyFile,
+    passphrase,
     httpMethod,
     authPrefix,
     urlPath,
@@ -48,7 +50,7 @@ export const signature = ({
 
 export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
   if(!config.gateway1AppId || !(config.gateway1Secret || config.gateway1KeyFile || config.gateway1KeyString)) return;
-  
+
   const { method, url } = req;
   const {
     gateway1Host,
@@ -60,6 +62,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     gateway1Secret,
     gateway1KeyString,
     gateway1KeyFile,
+    gateway1Passphrase,
   } = config;
 
   const urlPath = `https://${gateway1Host}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
@@ -68,6 +71,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     secret: gateway1Secret,
     keyFile: gateway1KeyFile,
     keyString: gateway1KeyString,
+    passphrase: gateway1Passphrase,
     appId: gateway1AppId,
     httpMethod: method,
     urlPath,
@@ -76,7 +80,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
 
 export const secondGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
   if(!config.gateway2AppId || !(config.gateway2Secret || config.gateway2KeyFile || config.gateway2KeyString)) return;
-  
+
   const { method, url } = req;
   const {
     gateway2Host,
@@ -87,6 +91,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     gateway2Secret,
     gateway2KeyString,
     gateway2KeyFile,
+    gateway2Passphrase,
   } = config;
 
   const urlPath = `https://${gateway2Host}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
@@ -95,6 +100,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     secret: gateway2Secret,
     keyFile: gateway2KeyFile,
     keyString: gateway2KeyString,
+    passphrase: gateway2Passphrase,
     appId: gateway2AppId,
     httpMethod: method,
     urlPath,

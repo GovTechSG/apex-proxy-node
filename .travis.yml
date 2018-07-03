@@ -37,5 +37,5 @@ jobs:
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
         - 'sed -i "1 s/^.*/FROM govtechsg\/${IMAGE_NAME}:${CURRENT_TAG}/" ./Nectar.Dockerfile'
         - git add Nectar.Dockerfile;
-        - 'git commit --alow-empty -m "Apex-Proxy-Node:${CURRENT_TAG}"'
+        - 'git commit --allow-empty -m "Apex-Proxy-Node:${CURRENT_TAG}"'
         - git push;

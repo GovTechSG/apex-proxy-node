@@ -35,6 +35,7 @@ jobs:
       script:
         - IMAGE_NAME=$(echo ${DH_REPO} | sed 's:.*/::');
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
+        - git checkout ${TRAVIS_BRANCH};
         - 'sed -i "1 s/^.*/FROM govtechsg\/${IMAGE_NAME}:${CURRENT_TAG}/" ./Nectar.Dockerfile'
         - git add Nectar.Dockerfile;
         - 'git commit --allow-empty -m "Apex-Proxy-Node:${CURRENT_TAG}"'

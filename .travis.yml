@@ -31,4 +31,4 @@ jobs:
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
         - echo "Current Tag: $CURRENT_TAG";
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
-        - docker push "${DH_REPO}_":"${CURRENT_TAG}";
+        - docker push "${DH_REPO}":"${CURRENT_TAG}";

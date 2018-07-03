@@ -8,6 +8,7 @@ branches:
 stages:
   - version
   - build
+  - nectar
 before_script:
   - docker login -u "${DH_USERNAME}" -p "${DH_PASSWORD}"
 after_script:
@@ -19,16 +20,22 @@ jobs:
         only:
           - master
       script:
-        - git checkout master
+        - git checkout master;
         - docker pull govtechsg/cicd-images:vtscripts-latest;
         - docker run -v "$(pwd):/app" -w "/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;
     - stage: build
       script:
         - echo "Current Commit= $TRAVIS_COMMIT";
-        - IMAGE_NAME=$(echo ${DH_REPO} | sed 's:.*/::')
-        - echo "Image Name= $IMAGE_NAME";
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
         - echo "Current Tag= $CURRENT_TAG";
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
         - docker push "${DH_REPO}":"${CURRENT_TAG}";
+    - stage: nectar
+      script:
+        - IMAGE_NAME=$(echo ${DH_REPO} | sed 's:.*/::');
+        - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
+        - 'sed -i "1 s/^.*/FROM govtechsg\/${IMAGE_NAME}:${CURRENT_TAG}/" ./Nectar.Dockerfile'
+				- git add Nectar.Dockerfile;
+				- 'git commit --alow-empty -m "Apex-Proxy-Node:${CURRENT_TAG}"'
+				- git push;

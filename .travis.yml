@@ -15,8 +15,11 @@ after_script:
 jobs:
   include:
     - stage: version
+      branches:
+        only:
+          - master
       script:
-        - ls
+        - git checkout master
         - docker pull govtechsg/cicd-images:vtscripts-latest;
         - docker run -v "$(pwd):/app" -w "/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;

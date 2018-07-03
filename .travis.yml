@@ -25,10 +25,10 @@ jobs:
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;
     - stage: build
       script:
-        - echo "Current Commit: $TRAVIS_COMMIT";
+        - echo "Current Commit= $TRAVIS_COMMIT";
         - IMAGE_NAME=$(echo ${DH_REPO} | sed 's:.*/::')
-        - echo "ImageName: $IMAGE_NAME";
+        - echo "Image Name= $IMAGE_NAME";
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
-        - echo "Current Tag: $CURRENT_TAG";
+        - echo "Current Tag= $CURRENT_TAG";
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
         - docker push "${DH_REPO}":"${CURRENT_TAG}";

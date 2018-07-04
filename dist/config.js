@@ -20,7 +20,7 @@ exports.getConfig = () => {
         gateway1AppId: GATEWAY_1_APP_ID,
         gateway1Secret: GATEWAY_1_SECRET ? GATEWAY_1_SECRET : undefined,
         gateway1KeyString: GATEWAY_1_KEY_STRING ? GATEWAY_1_KEY_STRING : undefined,
-        gateway1KeyFile: GATEWAY_1_KEY_FILE ? path_1.default.join(__dirname, '..', GATEWAY_1_KEY_FILE) : undefined,
+        gateway1KeyFile: GATEWAY_1_KEY_FILE ? path_1.default.join(__dirname, GATEWAY_1_KEY_FILE) : undefined,
         gateway1Passphrase: GATEWAY_1_PASSPHRASE ? GATEWAY_1_PASSPHRASE : undefined,
         gateway2Host: GATEWAY_2_HOST,
         gateway2Port: GATEWAY_2_PORT,

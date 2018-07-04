@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const crypto_1 = require("crypto");
+exports.generateSHA512Hash = (data) => crypto_1.createHash('sha512').update(data || '').digest('hex');
 exports.isTruthy = (value) => {
     const valueType = typeof value;
     switch (valueType) {
@@ -14,5 +16,11 @@ exports.isTruthy = (value) => {
         default:
             return false;
     }
+};
+exports.printOpts = (opts) => {
+    opts.secret = exports.generateSHA512Hash(opts.secret);
+    opts.passphrase = exports.generateSHA512Hash(opts.passphrase);
+    opts.keyString = exports.generateSHA512Hash(opts.keyString);
+    console.log("Signing opts:", opts);
 };
 //# sourceMappingURL=index.js.map

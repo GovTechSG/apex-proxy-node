@@ -2,5 +2,9 @@ test/
 .git/
 .env-example
 .docker-compose.yml
-.tslint.yaml
-
+src/
+.travis.yml
+*Dockerfile
+tsconfig.json
+tslint.yaml
+.dockerignore

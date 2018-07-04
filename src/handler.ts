@@ -5,6 +5,7 @@ import {
 import {IConfig} from './types';
 import http from 'http';
 import {get} from 'lodash';
+import {printOpts} from './utils';
 import {ApiSigningUtil} from 'node-apex-api-security';
 import queryString from 'querystring';
 
@@ -44,7 +45,7 @@ export const signature = ({
     urlPath,
   }
 
-  config && config.debug && console.log("Signing opts:", opts);
+  config && config.debug && printOpts(opts);
   return ApiSigningUtil.getSignatureToken(opts);
 }
 

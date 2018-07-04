@@ -2,12 +2,10 @@ sudo: required
 language: bash
 services:
   - docker
-branches:
-  only:
-    - master
 stages:
   - version
-  - build
+  - build_test
+  - build_and_push
   - nectar
 before_script:
   - docker login -u "${DH_USERNAME}" -p "${DH_PASSWORD}"
@@ -16,27 +14,36 @@ after_script:
 jobs:
   include:
     - stage: version
-      branches:
-        only:
-          - master
+      if: branch = master AND (NOT (type IN (push, pull_request)))
       script:
         - git checkout master;
         - docker pull govtechsg/cicd-images:vtscripts-latest;
         - docker run -v "$(pwd):/app" -w "/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;
-    - stage: build
+    - stage: build_test
+      if: branch != master AND (type IN (pull_request)))
       language: node_js
       node_js:
         - "8"
       script:
-        - npm install -g tsc
+        - npm install -g typescript
+        - tsc --project ./tsconfig-prod.json
+        - docker build .;
+    - stage: build_and_push
+      language: node_js
+      node_js:
+        - "8"
+      if: branch = master AND (NOT (type IN (push, pull_request)))
+      script:
+        - npm install -g typescript
         - echo "Current Commit= $TRAVIS_COMMIT";
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
         - echo "Current Tag= $CURRENT_TAG";
-        - tsc
+        - tsc --project ./tsconfig-prod.json
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
         - docker push "${DH_REPO}":"${CURRENT_TAG}";
     - stage: nectar
+      if: branch = master AND (NOT (type IN (push, pull_request)))
       script:
         - IMAGE_NAME=$(echo ${DH_REPO} | sed 's:.*/::');
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");

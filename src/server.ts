@@ -42,7 +42,7 @@ app.use((req, res) => proxy.web(req, res, {
   changeOrigin: true,
 }));
 
-const server = http.createServer(app);
+export const server = http.createServer(app);
 
 printConfig();
 server.listen(config.localPort);

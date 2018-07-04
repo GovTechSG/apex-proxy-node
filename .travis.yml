@@ -25,10 +25,15 @@ jobs:
         - docker run -v "$(pwd):/app" -w "/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;
     - stage: build
+      language: node_js
+      node_js:
+        - "8"
       script:
+        - npm install -g tsc
         - echo "Current Commit= $TRAVIS_COMMIT";
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");
         - echo "Current Tag= $CURRENT_TAG";
+        - tsc
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
         - docker push "${DH_REPO}":"${CURRENT_TAG}";
     - stage: nectar

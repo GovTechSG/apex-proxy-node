@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("./constants");
 const lodash_1 = require("lodash");
+const utils_1 = require("./utils");
 const node_apex_api_security_1 = require("node-apex-api-security");
 const querystring_1 = __importDefault(require("querystring"));
 exports.signature = ({ type, secret, keyFile, keyString, passphrase, appId, httpMethod, urlPath, }, config) => {
@@ -35,7 +36,7 @@ exports.signature = ({ type, secret, keyFile, keyString, passphrase, appId, http
         authPrefix,
         urlPath,
     };
-    config && config.debug && console.log("Signing opts:", opts);
+    config && config.debug && utils_1.printOpts(opts);
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };
 exports.firstGateSignature = (req, config) => {

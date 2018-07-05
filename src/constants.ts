@@ -1,7 +1,7 @@
 export const MODE = {
   REWRITE: 'REWRITE',
   APPEND: 'APPEND',
-}
+};
 
 export const AUTH_PREFIX = {
   L1:{
@@ -12,6 +12,6 @@ export const AUTH_PREFIX = {
     INTERNAL: 'apex_l2_ig',
     EXTERNAL: 'apex_l2_eg',
   }
-}
+};
 
 export const DEFAULT_MODE = MODE.REWRITE;

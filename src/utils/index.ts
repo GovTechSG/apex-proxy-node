@@ -26,5 +26,5 @@ export const printOpts = (opts: any): void =>{
   opts.passphrase = generateSHA512Hash(opts.passphrase);
   opts.keyString = generateSHA512Hash(opts.keyString);
   console.log("Signing opts:", opts);
-}
+};
 

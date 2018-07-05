@@ -8,7 +8,8 @@
     "dev": "nodemon -e ts --exec \"npm run compile\"",
     "serve": "node ./dist/server.js",
     "test": "mocha --exit -r ts-node/register $@ ./test/test-e2e.ts",
-    "test-watch": "nodemon -e ts --exec \"npm run test\""
+    "test-watch": "nodemon -e ts --exec \"npm run test\"",
+    "lint": "tslint --project . -c tslint.yaml"
   },
   "author": "Raymond Yeh <yehjxraymond@gmail.com> (https://geek.sg)",
   "license": "ISC",
@@ -35,6 +36,9 @@
     "nodemon": "^1.17.5",
     "request": "^2.87.0",
     "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "tslint-microsoft-contrib": "^5.0.3",
     "typescript": "^2.9.2"
   }
 }

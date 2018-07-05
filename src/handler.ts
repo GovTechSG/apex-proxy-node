@@ -1,15 +1,15 @@
-import {
-  MODE,
-  AUTH_PREFIX,
-} from './constants';
-import {IConfig} from './types';
 import http from 'http';
 import {get} from 'lodash';
-import {printOpts} from './utils';
 import {ApiSigningUtil} from 'node-apex-api-security';
-import queryString from 'querystring';
+import {queryString} from 'queryString';
+import {
+  AUTH_PREFIX,
+  MODE,
+} from './constants';
+import {IConfig} from './types';
+import {printOpts} from './utils';
 
-export const signature = ({
+export const sign = ({
   type,
   secret,
   keyFile,
@@ -43,14 +43,17 @@ export const signature = ({
     httpMethod,
     authPrefix,
     urlPath,
-  }
+  };
 
-  config && config.debug && printOpts(opts);
+  if(config && config.debug){
+    printOpts(opts);
+  }
   return ApiSigningUtil.getSignatureToken(opts);
-}
+};
 
 export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
-  if(!config.gateway1AppId || !(config.gateway1Secret || config.gateway1KeyFile || config.gateway1KeyString)) return;
+  if(!config.gateway1AppId || !(config.gateway1Secret
+    || config.gateway1KeyFile || config.gateway1KeyString)) { return; }
 
   const { method, url } = req;
   const {
@@ -67,7 +70,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
   } = config;
 
   const urlPath = `https://${gateway1Host}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
-  return signature({
+  return sign({
     type: gateway1Type,
     secret: gateway1Secret,
     keyFile: gateway1KeyFile,
@@ -80,7 +83,8 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
 };
 
 export const secondGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
-  if(!config.gateway2AppId || !(config.gateway2Secret || config.gateway2KeyFile || config.gateway2KeyString)) return;
+  if(!config.gateway2AppId || !(config.gateway2Secret
+    || config.gateway2KeyFile || config.gateway2KeyString)) { return; }
 
   const { method, url } = req;
   const {
@@ -96,7 +100,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
   } = config;
 
   const urlPath = `https://${gateway2Host}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
-  return signature({
+  return sign({
     type: gateway2Type,
     secret: gateway2Secret,
     keyFile: gateway2KeyFile,
@@ -117,7 +121,8 @@ export const proxyHandler = (
 
   const gate1Signature = firstGateSignature(req, config);
   const gate2Signature = secondGateSignature(req, config);
-  const signature = (gate1Signature && gate2Signature) ? `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
+  const signature = (gate1Signature && gate2Signature) ? 
+  `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
 
   if(signature && config.mode === MODE.REWRITE){
     proxyReq.setHeader('Authorization', signature);
@@ -144,4 +149,4 @@ export const proxyHandler = (
       proxyReq.write(bodyData);
     }
   }
-}
+};

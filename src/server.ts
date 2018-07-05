@@ -1,12 +1,12 @@
+import bodyParser from 'body-parser';
+import connect from 'connect';
 import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
 import httpProxy from 'http-proxy';
+import {get} from 'lodash';
 import path from 'path';
 import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
-import {get} from 'lodash';
-import connect from 'connect';
-import bodyParser from 'body-parser';
 
 // Populate environment variable from dotenv file if applicable
 try {
@@ -18,6 +18,7 @@ try {
 const config = getConfig();
 
 const proxy = httpProxy.createProxyServer({
+  // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
 });
@@ -27,7 +28,9 @@ proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) =
 });
 
 proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
-  config.debug && console.log(get(proxyRes, 'req._header'));
+  if(config.debug){
+    console.log(get(proxyRes, 'req._header'));
+  }
 });
 
 proxy.on('error', (err, req: http.IncomingMessage) => {

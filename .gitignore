@@ -4,7 +4,7 @@ coverage
 *.log
 .git-*
 .env
-#dist
+dist
 
 **/.DS_Store
 

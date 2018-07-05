@@ -1,8 +1,8 @@
-import {default as express} from 'express';
-import path from 'path';
-import https from 'https';
 import bodyParser from 'body-parser';
+import {default as express} from 'express';
 import fs from 'fs';
+import https from 'https';
+import path from 'path';
 
 const privateKey  = fs.readFileSync(path.join(__dirname, './fixtures/server.key'), 'utf8');
 const certificate = fs.readFileSync(path.join(__dirname, './fixtures/server.crt'), 'utf8');
@@ -27,29 +27,29 @@ const reflectRequest = (req, res) => {
     headers,
     method,
   });
-}
+};
 
-app.get('*', function (req, res) {
+app.get('*', (req, res) => {
   reflectRequest(req, res);
 });
 
-app.post('*', function (req, res) {
+app.post('*', (req, res) => {
   reflectRequest(req, res);
 });
 
-app.put('*', function (req, res) {
+app.put('*', (req, res) => {
   reflectRequest(req, res);
 });
 
-app.delete('*', function (req, res) {
+app.delete('*', (req, res) => {
   reflectRequest(req, res);
 });
 
-app.options('*', function (req, res) {
+app.options('*', (req, res) => {
   reflectRequest(req, res);
 });
 
-//export const server = app.listen('1336');
+// export const server = app.listen('1336');
 
 export const server = https.createServer(credentials, app);
 

@@ -1,7 +1,7 @@
+import path from 'path';
 import { DEFAULT_MODE } from './constants';
 import { IConfig } from './types';
 import { isTruthy } from './utils';
-import path from 'path';
 
 export const getConfig = ():IConfig => {
   const {
@@ -58,7 +58,7 @@ export const getConfig = ():IConfig => {
     gateway2KeyFile: GATEWAY_2_KEY_FILE ? path.join(__dirname, '..', GATEWAY_2_KEY_FILE) : undefined,
     gateway2Passphrase: GATEWAY_2_PASSPHRASE ? GATEWAY_2_PASSPHRASE : undefined,
   };
-}
+};
 
 export const printConfig = () => {
   const config = getConfig();
@@ -66,6 +66,6 @@ export const printConfig = () => {
   console.log(`Secure Mode: ${config.secure}`);
   console.log(`Auth Mode: ${config.mode}`);
   console.log(`Server listening on port ${config.localPort}`);
-}
+};
 
 export default getConfig; 

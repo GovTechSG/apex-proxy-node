@@ -40,7 +40,7 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use((req, res) => proxy.web(req, res, {
     changeOrigin: true,
 }));
-const server = http_1.default.createServer(app);
+exports.server = http_1.default.createServer(app);
 config_1.printConfig();
-server.listen(config.localPort);
+exports.server.listen(config.localPort);
 //# sourceMappingURL=server.js.map

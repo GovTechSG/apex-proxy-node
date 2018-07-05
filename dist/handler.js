@@ -1,14 +1,11 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = require("./constants");
 const lodash_1 = require("lodash");
-const utils_1 = require("./utils");
 const node_apex_api_security_1 = require("node-apex-api-security");
-const querystring_1 = __importDefault(require("querystring"));
-exports.signature = ({ type, secret, keyFile, keyString, passphrase, appId, httpMethod, urlPath, }, config) => {
+const querystring_1 = require("querystring");
+const constants_1 = require("./constants");
+const utils_1 = require("./utils");
+exports.sign = ({ type, secret, keyFile, keyString, passphrase, appId, httpMethod, urlPath, }, config) => {
     let authPrefix;
     if (type === 'INTERNAL') {
         if (secret) {
@@ -36,16 +33,20 @@ exports.signature = ({ type, secret, keyFile, keyString, passphrase, appId, http
         authPrefix,
         urlPath,
     };
-    config && config.debug && utils_1.printOpts(opts);
+    if (config && config.debug) {
+        utils_1.printOpts(opts);
+    }
     return node_apex_api_security_1.ApiSigningUtil.getSignatureToken(opts);
 };
 exports.firstGateSignature = (req, config) => {
-    if (!config.gateway1AppId || !(config.gateway1Secret || config.gateway1KeyFile || config.gateway1KeyString))
+    if (!config.gateway1AppId || !(config.gateway1Secret
+        || config.gateway1KeyFile || config.gateway1KeyString)) {
         return;
+    }
     const { method, url } = req;
     const { gateway1Host, gateway1Port, gateway1UrlPrefix, gateway2UrlPrefix, gateway1Type, gateway1AppId, gateway1Secret, gateway1KeyString, gateway1KeyFile, gateway1Passphrase, } = config;
     const urlPath = `https://${gateway1Host}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
-    return exports.signature({
+    return exports.sign({
         type: gateway1Type,
         secret: gateway1Secret,
         keyFile: gateway1KeyFile,
@@ -57,12 +58,14 @@ exports.firstGateSignature = (req, config) => {
     }, config);
 };
 exports.secondGateSignature = (req, config) => {
-    if (!config.gateway2AppId || !(config.gateway2Secret || config.gateway2KeyFile || config.gateway2KeyString))
+    if (!config.gateway2AppId || !(config.gateway2Secret
+        || config.gateway2KeyFile || config.gateway2KeyString)) {
         return;
+    }
     const { method, url } = req;
     const { gateway2Host, gateway2Port, gateway2UrlPrefix, gateway2Type, gateway2AppId, gateway2Secret, gateway2KeyString, gateway2KeyFile, gateway2Passphrase, } = config;
     const urlPath = `https://${gateway2Host}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
-    return exports.signature({
+    return exports.sign({
         type: gateway2Type,
         secret: gateway2Secret,
         keyFile: gateway2KeyFile,
@@ -77,7 +80,8 @@ exports.proxyHandler = (proxyReq, req, config) => {
     proxyReq.setHeader('Host', config.gateway1Host);
     const gate1Signature = exports.firstGateSignature(req, config);
     const gate2Signature = exports.secondGateSignature(req, config);
-    const signature = (gate1Signature && gate2Signature) ? `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
+    const signature = (gate1Signature && gate2Signature) ?
+        `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
     if (signature && config.mode === constants_1.MODE.REWRITE) {
         proxyReq.setHeader('Authorization', signature);
     }
@@ -93,7 +97,7 @@ exports.proxyHandler = (proxyReq, req, config) => {
             bodyData = JSON.stringify(body);
         }
         if (contentType === 'application/x-www-form-urlencoded') {
-            bodyData = querystring_1.default.stringify(body);
+            bodyData = querystring_1.stringify(body);
         }
         if (bodyData) {
             proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));

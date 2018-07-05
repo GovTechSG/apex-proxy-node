@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
 const constants_1 = require("./constants");
 const utils_1 = require("./utils");
-const path_1 = __importDefault(require("path"));
 exports.getConfig = () => {
     const { DEBUG, SECURE, AUTH_MODE, LOCAL_PORT, GATEWAY_1_HOST, GATEWAY_1_PORT, GATEWAY_1_TYPE, GATEWAY_1_URL_PREFIX, GATEWAY_1_APP_ID, GATEWAY_1_SECRET, GATEWAY_1_KEY_STRING, GATEWAY_1_KEY_FILE, GATEWAY_1_PASSPHRASE, GATEWAY_2_HOST, GATEWAY_2_PORT, GATEWAY_2_TYPE, GATEWAY_2_URL_PREFIX, GATEWAY_2_APP_ID, GATEWAY_2_SECRET, GATEWAY_2_KEY_STRING, GATEWAY_2_KEY_FILE, GATEWAY_2_PASSPHRASE, } = process.env;
     return {

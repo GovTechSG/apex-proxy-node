@@ -1,7 +1,7 @@
 import http from 'http';
 import {get} from 'lodash';
 import {ApiSigningUtil} from 'node-apex-api-security';
-import {queryString} from 'queryString';
+import {stringify} from 'querystring';
 import {
   AUTH_PREFIX,
   MODE,
@@ -141,7 +141,7 @@ export const proxyHandler = (
     }
 
     if (contentType === 'application/x-www-form-urlencoded') {
-      bodyData = queryString.stringify(body);
+      bodyData = stringify(body);
     }
 
     if (bodyData) {

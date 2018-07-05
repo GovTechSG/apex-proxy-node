@@ -14,7 +14,7 @@ after_script:
 jobs:
   include:
     - stage: version
-      if: branch = master AND (NOT (type IN (push, pull_request)))
+      if: branch = master AND (type IN (push))
       script:
         - git checkout master;
         - docker pull govtechsg/cicd-images:vtscripts-latest;
@@ -33,7 +33,7 @@ jobs:
       language: node_js
       node_js:
         - "8"
-      if: branch = master AND (NOT (type IN (push, pull_request)))
+      if: branch = master AND (type IN (push))
       script:
         - npm install -g typescript
         - echo "Current Commit= $TRAVIS_COMMIT";
@@ -43,7 +43,7 @@ jobs:
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
         - docker push "${DH_REPO}":"${CURRENT_TAG}";
     - stage: nectar
-      if: branch = master AND (NOT (type IN (push, pull_request)))
+      if: branch = master AND (type IN (push))
       script:
         - IMAGE_NAME=$(echo ${DH_REPO} | sed 's:.*/::');
         - CURRENT_TAG=$(git describe --tags --exact-match "$TRAVIS_COMMIT");

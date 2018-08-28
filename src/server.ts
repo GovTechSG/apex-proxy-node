@@ -20,6 +20,7 @@ const config = getConfig();
 const proxy = httpProxy.createProxyServer({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
+  prependPath: true,
   secure: config.secure,
 });
 

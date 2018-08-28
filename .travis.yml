@@ -21,7 +21,7 @@ jobs:
         - docker run -v "$(pwd):/app" -w "/app" govtechsg/cicd-images:vtscripts-latest iterate minor -q -i;
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git --tags;
     - stage: build_test
-      if: branch != master AND (type IN (pull_request))
+      if: branch = master AND (type IN (pull_request))
       language: node_js
       node_js:
         - "8"

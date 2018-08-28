@@ -148,7 +148,7 @@ describe('test', () => {
       }
 
       const {headers} = await asyncRequest(uri, options);
-      
+
       // TODO: Add verification that authorization is signed correctly
       expect(headers.authorization).to.not.be.empty;
       expect(headers.authorization).to.contain(customAuthorizationHeader);
@@ -162,7 +162,7 @@ describe('test', () => {
       }
 
       const {headers} = await asyncRequest(uri, options);
-      
+
       // TODO: Add verification that authorization is signed correctly
       expect(headers.authorization).to.not.be.empty;
     });
@@ -185,7 +185,7 @@ describe('test', () => {
       }
 
       const {body} = await asyncRequest(uri, options);
-      
+
       expect(body).to.be.deep.eq(data);
     });
   })

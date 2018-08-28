@@ -40,7 +40,7 @@ proxy.on('error', (err, req: http.IncomingMessage) => {
 
 const app = connect();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, limit: config.body_limit_size}));
 app.use((req, res) => proxy.web(req, res, {
   changeOrigin: true,
 }));

@@ -29,12 +29,13 @@ export const getConfig = ():IConfig => {
     GATEWAY_2_KEY_STRING,
     GATEWAY_2_KEY_FILE,
     GATEWAY_2_PASSPHRASE,
-
+    BODY_LIMIT_SIZE,
   } = process.env;
 
   return {
     debug: isTruthy(DEBUG),
     secure: isTruthy(SECURE),
+    body_limit_size: BODY_LIMIT_SIZE ? BODY_LIMIT_SIZE : '4200kb',
     mode: AUTH_MODE || DEFAULT_MODE,
     localPort: LOCAL_PORT,
 

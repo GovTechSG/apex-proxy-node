@@ -22,9 +22,10 @@ export const isTruthy = (value: any): boolean => {
 };
 
 export const printOpts = (opts: any): void =>{
-  opts.secret = generateSHA512Hash(opts.secret);
-  opts.passphrase = generateSHA512Hash(opts.passphrase);
-  opts.keyString = generateSHA512Hash(opts.keyString);
-  console.log("Signing opts:", opts);
+  let tempOpts = {...opts}
+  tempOpts.secret = generateSHA512Hash(opts.secret);
+  tempOpts.passphrase = generateSHA512Hash(opts.passphrase);
+  tempOpts.keyString = generateSHA512Hash(opts.keyString);
+  console.log("Printing opts:", tempOpts);
 };
 

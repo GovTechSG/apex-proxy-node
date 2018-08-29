@@ -7,6 +7,7 @@ export const getConfig = ():IConfig => {
   const {
     DEBUG,
     SECURE,
+    BODY_LIMIT_SIZE,
     AUTH_MODE,
     LOCAL_PORT,
 
@@ -29,7 +30,6 @@ export const getConfig = ():IConfig => {
     GATEWAY_2_KEY_STRING,
     GATEWAY_2_KEY_FILE,
     GATEWAY_2_PASSPHRASE,
-    BODY_LIMIT_SIZE,
   } = process.env;
 
   return {

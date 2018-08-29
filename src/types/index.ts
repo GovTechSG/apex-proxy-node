@@ -1,7 +1,7 @@
 export interface IConfig {
   debug: boolean;
   secure: boolean;
-  body_limit_size: string;
+  body_limit_size? : string;
   localPort: string;
 
   // REWRITE or APPEND Signature to Authorization header

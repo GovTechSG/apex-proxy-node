@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import HttpProxyAgent from 'http-proxy-agent';
 import connect from 'connect';
 import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
@@ -8,6 +9,7 @@ import path from 'path';
 import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
 
+
 // Populate environment variable from dotenv file if applicable
 try {
   populateProcessEnv({path: path.join(__dirname, '../.env')});
@@ -16,11 +18,14 @@ try {
 }
 
 const config = getConfig();
+const http_proxy = process.env.HTTP_PROXY;
+const httpProxyAgent = http_proxy ? new HttpProxyAgent(http_proxy) : false;
 
 const proxy = httpProxy.createProxyServer({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
+  agent: httpProxyAgent,
 });
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {

@@ -32,9 +32,10 @@ proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) =
   proxyHandler(proxyReq, req, config);
 });
 
-proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
+proxy.on('proxyRes', (proxyRes: http.IncomingMessage, req: http.IncomingMessage, res: http.ServerResponse) => {
   if(config.debug){
     console.log(get(proxyRes, 'req._header'));
+    console.log(get(proxyRes, 'headers'));
   }
 });
 

@@ -117,26 +117,18 @@ export const proxyHandler = (
   req: http.IncomingMessage,
   config: IConfig
 ) => {
-
-  // @ts-ignore
-  proxyReq.headers = proxyReq.headers || {}
-  // @ts-ignore
-  proxyReq.headers['Host'] = config.gateway1Host;
+  proxyReq.setHeader('Host', config.gateway1Host);
 
   const gate1Signature = firstGateSignature(req, config);
   const gate2Signature = secondGateSignature(req, config);
   const signature = (gate1Signature && gate2Signature) ?
   `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
-  console.log('signature', signature);
+
   if(signature && config.mode === MODE.REWRITE){
-    // @ts-ignore
-    proxyReq.headers['Authorization'] = signature;
+    proxyReq.setHeader('Authorization', signature);
   }else if(signature && config.mode === MODE.APPEND){
     const authorization = get(req, 'headers.authorization');
-    // @ts-ignore
-    proxyReq.headers['Authorization'] = authorization ? `${signature}, ${authorization}` : signature;
-    //   proxyReq.setHeader('Authorization', authorization ? `${signature}, ${authorization}` : signature);
-
+    proxyReq.setHeader('Authorization', authorization ? `${signature}, ${authorization}` : signature);
   }
 
   const body = get(req, 'body');
@@ -153,8 +145,7 @@ export const proxyHandler = (
     }
 
     if (bodyData) {
-    // @ts-ignore
-      proxyReq.headers['Content-Length'] = Buffer.byteLength(bodyData);
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
       proxyReq.write(bodyData);
     }
   }

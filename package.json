@@ -23,11 +23,10 @@
     "connect": "^3.6.6",
     "dotenv": "^6.0.0",
     "http": "^0.0.0",
-    "http-proxy": "^1.17.0",
+    "http-proxy": "ryanoolala/node-http-proxy",
     "http-proxy-agent": "^2.1.0",
     "lodash": "^4.17.10",
     "node-apex-api-security": "^0.7.6",
-    "proxy-agent": "^3.0.1",
     "querystring": "^0.2.0"
   },
   "devDependencies": {

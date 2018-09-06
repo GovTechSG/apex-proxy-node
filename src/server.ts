@@ -30,11 +30,11 @@ const proxy = httpProxy.createProxyServer({
 });
 
 // @ts-ignore
-proxy.once('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
+proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
   proxyHandler(proxyReq, req, config);
 });
 // @ts-ignore
-proxy.once('proxyRes', (proxyRes: http.IncomingMessage) => {
+proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
   if(config.debug){
     console.log(get(proxyRes, 'req._header'));
     console.log(get(proxyRes, 'req.headers'));

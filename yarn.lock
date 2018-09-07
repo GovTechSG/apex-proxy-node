@@ -1108,7 +1108,7 @@ http-proxy-agent@^2.1.0:
 
 http-proxy@ryanoolala/node-http-proxy:
   version "1.17.0"
-  resolved "https://codeload.github.com/ryanoolala/node-http-proxy/tar.gz/dceff44b17cc08e783318801bc218fb1c858570a"
+  resolved "https://codeload.github.com/ryanoolala/node-http-proxy/tar.gz/05bb5a50fda402e13d3ee93f4d2f84c4308ec138"
   dependencies:
     eventemitter3 "^3.0.0"
     follow-redirects "^1.0.0"

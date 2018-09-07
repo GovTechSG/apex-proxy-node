@@ -26,6 +26,8 @@ const proxy = httpProxy.createProxyServer({
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
   toProxy: true,
+  // @ts-ignore
+  followRedirects: true,
 });
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {

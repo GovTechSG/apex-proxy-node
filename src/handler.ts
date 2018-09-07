@@ -118,7 +118,6 @@ export const proxyHandler = (
   config: IConfig
 ) => {
   proxyReq.setHeader('Host', config.gateway1Host);
-  proxyReq.setHeader('host', process.env.POD_HOST);
 
   const gate1Signature = firstGateSignature(req, config);
   const gate2Signature = secondGateSignature(req, config);

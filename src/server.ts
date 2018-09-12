@@ -18,7 +18,7 @@ try {
 }
 
 const config = getConfig();
-const http_proxy = config.http_proxy;
+const http_proxy = config.custom_http_proxy || config.http_proxy;
 const httpProxyAgent = http_proxy ? new HttpProxyAgent(http_proxy) : false;
 const proxyWithAgentOptions = { toProxy: true, followRedirects: true, agent: httpProxyAgent};
 const proxyOptions = Object.assign({

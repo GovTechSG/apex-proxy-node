@@ -29,5 +29,6 @@ export interface IConfig {
   gateway2Passphrase? : string;
 
   http_proxy? : string;
+  custom_http_proxy? : string;
   use_proxy_agent? : string;
 }

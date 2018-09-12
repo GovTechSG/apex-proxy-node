@@ -32,6 +32,7 @@ export const getConfig = ():IConfig => {
     GATEWAY_2_PASSPHRASE,
 
     HTTP_PROXY,
+    CUSTOM_HTTP_PROXY,
     USE_PROXY_AGENT,
   } = process.env;
 
@@ -63,6 +64,7 @@ export const getConfig = ():IConfig => {
     gateway2Passphrase: GATEWAY_2_PASSPHRASE ? GATEWAY_2_PASSPHRASE : undefined,
 
     http_proxy: HTTP_PROXY,
+    custom_http_proxy: CUSTOM_HTTP_PROXY,
     use_proxy_agent: USE_PROXY_AGENT ? USE_PROXY_AGENT : undefined,
   };
 };

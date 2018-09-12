@@ -1,5 +1,5 @@
 import bodyParser from 'body-parser';
-import HttpProxyAgent from 'http-proxy-agent';
+import HttpsProxyAgent from 'https-proxy-agent';
 import connect from 'connect';
 import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
@@ -19,14 +19,14 @@ try {
 
 const config = getConfig();
 const http_proxy = config.custom_http_proxy || config.http_proxy;
-const httpProxyAgent = http_proxy ? new HttpProxyAgent(http_proxy) : false;
+const httpProxyAgent = http_proxy ? new HttpsProxyAgent(http_proxy) : false;
 const proxyWithAgentOptions = { toProxy: true, followRedirects: true, agent: httpProxyAgent};
 const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
 }, config.use_proxy_agent && proxyWithAgentOptions);
-
+console.log({proxyOptions})
 const proxy = httpProxy.createProxyServer(proxyOptions);
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {

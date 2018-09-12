@@ -18,17 +18,16 @@ try {
 }
 
 const config = getConfig();
-const http_proxy = process.env.HTTP_PROXY;
+const http_proxy = config.http_proxy;
 const httpProxyAgent = http_proxy ? new HttpProxyAgent(http_proxy) : false;
-
-const proxy = httpProxy.createProxyServer({
+const proxyWithAgentOptions = { toProxy: true, followRedirects: true, agent: httpProxyAgent};
+const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
-  toProxy: true,
-  // @ts-ignore
-  followRedirects: true,
-});
+}, config.use_proxy_agent && proxyWithAgentOptions);
+
+const proxy = httpProxy.createProxyServer(proxyOptions);
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
   proxyHandler(proxyReq, req, config);
@@ -51,7 +50,6 @@ app.use(bodyParser.json({limit: config.body_limit_size}));
 app.use(bodyParser.urlencoded({extended: true, limit: config.body_limit_size}));
 app.use((req, res) => proxy.web(req, res, {
   changeOrigin: true,
-  agent: httpProxyAgent,
 }));
 
 export const server = http.createServer(app);

@@ -27,4 +27,7 @@ export interface IConfig {
   gateway2KeyString? : string;
   gateway2KeyFile? : string;
   gateway2Passphrase? : string;
+
+  http_proxy? : string;
+  use_proxy_agent? : string;
 }

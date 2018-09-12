@@ -30,6 +30,9 @@ export const getConfig = ():IConfig => {
     GATEWAY_2_KEY_STRING,
     GATEWAY_2_KEY_FILE,
     GATEWAY_2_PASSPHRASE,
+
+    HTTP_PROXY,
+    USE_PROXY_AGENT,
   } = process.env;
 
   return {
@@ -58,6 +61,9 @@ export const getConfig = ():IConfig => {
     gateway2KeyString: GATEWAY_2_KEY_STRING ? GATEWAY_2_KEY_STRING : undefined,
     gateway2KeyFile: GATEWAY_2_KEY_FILE ? path.join(__dirname, '..', GATEWAY_2_KEY_FILE) : undefined,
     gateway2Passphrase: GATEWAY_2_PASSPHRASE ? GATEWAY_2_PASSPHRASE : undefined,
+
+    http_proxy: HTTP_PROXY,
+    use_proxy_agent: USE_PROXY_AGENT ? USE_PROXY_AGENT : undefined,
   };
 };
 

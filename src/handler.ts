@@ -117,6 +117,7 @@ export const proxyHandler = (
   req: http.IncomingMessage,
   config: IConfig
 ) => {
+  console.log('in proxy');
   proxyReq.setHeader('Host', config.gateway1Host);
 
   const gate1Signature = firstGateSignature(req, config);
@@ -132,6 +133,8 @@ export const proxyHandler = (
   }
 
   const body = get(req, 'body');
+  console.log("asdasdsda");
+  console.log('headers ' +  get(proxyReq,'headers'));
   if(body){
     const contentType = proxyReq.getHeader('Content-Type');
     let bodyData;
@@ -143,7 +146,6 @@ export const proxyHandler = (
     if (contentType === 'application/x-www-form-urlencoded') {
       bodyData = stringify(body);
     }
-
     if (bodyData) {
       proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
       proxyReq.write(bodyData);

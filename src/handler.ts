@@ -57,7 +57,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
 
   const { method, url } = req;
   const {
-    gateway1Host,
+    gateway1SigningHost,
     gateway1Port,
     gateway1UrlPrefix,
     gateway2UrlPrefix,
@@ -69,7 +69,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     gateway1Passphrase,
   } = config;
 
-  const urlPath = `https://${gateway1Host}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
+  const urlPath = `https://${gateway1SigningHost}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
   return sign({
     type: gateway1Type,
     secret: gateway1Secret,
@@ -88,7 +88,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
 
   const { method, url } = req;
   const {
-    gateway2Host,
+    gateway2SigningHost,
     gateway2Port,
     gateway2UrlPrefix,
     gateway2Type,
@@ -99,7 +99,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     gateway2Passphrase,
   } = config;
 
-  const urlPath = `https://${gateway2Host}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
+  const urlPath = `https://${gateway2SigningHost}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
   return sign({
     type: gateway2Type,
     secret: gateway2Secret,
@@ -133,8 +133,6 @@ export const proxyHandler = (
   }
 
   const body = get(req, 'body');
-  console.log("asdasdsda");
-  console.log('headers ' +  get(proxyReq,'headers'));
   if(body){
     const contentType = proxyReq.getHeader('Content-Type');
     let bodyData;

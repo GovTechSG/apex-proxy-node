@@ -9,6 +9,7 @@ export interface IConfig {
 
   // Target to forward request to
   gateway1Host : string;
+  gateway1SigningHost : string;
   gateway1Port : string;
   gateway1Type? : string;
   gateway1UrlPrefix? : string;
@@ -19,6 +20,7 @@ export interface IConfig {
   gateway1Passphrase? : string;
 
   gateway2Host : string;
+  gateway2SigningHost : string;
   gateway2Port : string;
   gateway2Type? : string;
   gateway2UrlPrefix? : string;
@@ -32,5 +34,4 @@ export interface IConfig {
   customHttpProxy? : string;
   useProxyAgent? : boolean;
   toProxy? : boolean;
-  followRedirects? : boolean;
 }

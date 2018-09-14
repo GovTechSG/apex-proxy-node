@@ -12,6 +12,7 @@ export const getConfig = ():IConfig => {
     LOCAL_PORT,
 
     GATEWAY_1_HOST,
+    GATEWAY_1_SIGNING_HOST,
     GATEWAY_1_PORT,
     GATEWAY_1_TYPE,
     GATEWAY_1_URL_PREFIX,
@@ -22,6 +23,7 @@ export const getConfig = ():IConfig => {
     GATEWAY_1_PASSPHRASE,
 
     GATEWAY_2_HOST,
+    GATEWAY_2_SIGNING_HOST,
     GATEWAY_2_PORT,
     GATEWAY_2_TYPE,
     GATEWAY_2_URL_PREFIX,
@@ -35,7 +37,6 @@ export const getConfig = ():IConfig => {
     CUSTOM_HTTP_PROXY,
     USE_PROXY_AGENT,
     TO_PROXY,
-    FOLLOW_REDIRECTS
   } = process.env;
 
   return {
@@ -46,6 +47,7 @@ export const getConfig = ():IConfig => {
     localPort: LOCAL_PORT,
 
     gateway1Host: GATEWAY_1_HOST,
+    gateway1SigningHost: GATEWAY_1_SIGNING_HOST,
     gateway1Port: GATEWAY_1_PORT,
     gateway1Type: GATEWAY_1_TYPE,
     gateway1UrlPrefix: GATEWAY_1_URL_PREFIX,
@@ -56,6 +58,7 @@ export const getConfig = ():IConfig => {
     gateway1Passphrase: GATEWAY_1_PASSPHRASE ? GATEWAY_1_PASSPHRASE : undefined,
 
     gateway2Host: GATEWAY_2_HOST,
+    gateway2SigningHost: GATEWAY_2_SIGNING_HOST,
     gateway2Port: GATEWAY_2_PORT,
     gateway2Type: GATEWAY_2_TYPE,
     gateway2UrlPrefix: GATEWAY_2_URL_PREFIX,
@@ -69,7 +72,6 @@ export const getConfig = ():IConfig => {
     customHttpProxy: CUSTOM_HTTP_PROXY,
     useProxyAgent: isTruthy(USE_PROXY_AGENT),
     toProxy: isTruthy(TO_PROXY),
-    followRedirects: isTruthy(FOLLOW_REDIRECTS),
   };
 };
 
@@ -79,9 +81,8 @@ export const printConfig = () => {
   console.log(`Secure Mode: ${config.secure}`);
   console.log(`Auth Mode: ${config.mode}`);
   console.log(`Use Proxy: ${config.useProxyAgent}`);
-  console.log(`Proxy: ${config.customHttpProxy || config.httpProxy}`);
+  console.log(`Proxy: ${(config.customHttpProxy && 'Custom Proxy') || (config.httpProxy && 'HTTP_PROXY')}`);
   console.log(`toProxy: ${config.toProxy}`);
-  console.log(`followRedirects: ${config.followRedirects}`);
   console.log(`Server listening on port ${config.localPort}`);
 };
 

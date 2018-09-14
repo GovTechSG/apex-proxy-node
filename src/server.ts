@@ -20,7 +20,7 @@ try {
 const config = getConfig();
 const httpProxyValue = config.customHttpProxy || config.httpProxy;
 const httpProxyAgent = httpProxyValue ? new HttpsProxyAgent(httpProxyValue) : false;
-const proxyWithAgentOptions = { toProxy: config.toProxy, followRedirects: config.followRedirects, agent: httpProxyAgent};
+const proxyWithAgentOptions = { toProxy: config.toProxy, agent: httpProxyAgent};
 const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,

@@ -1,7 +1,7 @@
 export interface IConfig {
   debug: boolean;
   secure: boolean;
-  body_limit_size? : string;
+  bodyLimitSize? : string;
   localPort: string;
 
   // REWRITE or APPEND Signature to Authorization header
@@ -28,7 +28,9 @@ export interface IConfig {
   gateway2KeyFile? : string;
   gateway2Passphrase? : string;
 
-  http_proxy? : string;
-  custom_http_proxy? : string;
-  use_proxy_agent? : string;
+  httpProxy? : string;
+  customHttpProxy? : string;
+  useProxyAgent? : boolean;
+  toProxy? : boolean;
+  followRedirects? : boolean;
 }

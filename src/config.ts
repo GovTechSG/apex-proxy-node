@@ -34,12 +34,14 @@ export const getConfig = ():IConfig => {
     HTTP_PROXY,
     CUSTOM_HTTP_PROXY,
     USE_PROXY_AGENT,
+    TO_PROXY,
+    FOLLOW_REDIRECTS
   } = process.env;
 
   return {
     debug: isTruthy(DEBUG),
     secure: isTruthy(SECURE),
-    body_limit_size: BODY_LIMIT_SIZE ? BODY_LIMIT_SIZE : '4200kb',
+    bodyLimitSize: BODY_LIMIT_SIZE ? BODY_LIMIT_SIZE : '4200kb',
     mode: AUTH_MODE || DEFAULT_MODE,
     localPort: LOCAL_PORT,
 
@@ -63,9 +65,11 @@ export const getConfig = ():IConfig => {
     gateway2KeyFile: GATEWAY_2_KEY_FILE ? path.join(__dirname, '..', GATEWAY_2_KEY_FILE) : undefined,
     gateway2Passphrase: GATEWAY_2_PASSPHRASE ? GATEWAY_2_PASSPHRASE : undefined,
 
-    http_proxy: HTTP_PROXY,
-    custom_http_proxy: CUSTOM_HTTP_PROXY,
-    use_proxy_agent: USE_PROXY_AGENT ? USE_PROXY_AGENT : undefined,
+    httpProxy: HTTP_PROXY,
+    customHttpProxy: CUSTOM_HTTP_PROXY,
+    useProxyAgent: isTruthy(USE_PROXY_AGENT),
+    toProxy: isTruthy(TO_PROXY),
+    followRedirects: isTruthy(FOLLOW_REDIRECTS),
   };
 };
 
@@ -74,6 +78,10 @@ export const printConfig = () => {
   console.log(`Debug Mode: ${config.debug}`);
   console.log(`Secure Mode: ${config.secure}`);
   console.log(`Auth Mode: ${config.mode}`);
+  console.log(`Use Proxy: ${config.useProxyAgent}`);
+  console.log(`Proxy: ${config.customHttpProxy || config.httpProxy}`);
+  console.log(`toProxy: ${config.toProxy}`);
+  console.log(`followRedirects: ${config.followRedirects}`);
   console.log(`Server listening on port ${config.localPort}`);
 };
 

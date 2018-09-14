@@ -18,14 +18,15 @@ try {
 }
 
 const config = getConfig();
-const http_proxy = config.custom_http_proxy || config.http_proxy;
-const httpProxyAgent = http_proxy ? new HttpsProxyAgent(http_proxy) : false;
-const proxyWithAgentOptions = { toProxy: true, followRedirects: true, agent: httpProxyAgent};
+const httpProxyValue = config.customHttpProxy || config.httpProxy;
+const httpProxyAgent = httpProxyValue ? new HttpsProxyAgent(httpProxyValue) : false;
+const proxyWithAgentOptions = { toProxy: config.toProxy, followRedirects: config.followRedirects, agent: httpProxyAgent};
 const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
-}, config.use_proxy_agent && proxyWithAgentOptions);
+}, config.useProxyAgent && proxyWithAgentOptions);
+
 console.log({proxyOptions})
 const proxy = httpProxy.createProxyServer(proxyOptions);
 
@@ -46,8 +47,8 @@ proxy.on('error', (err, req: http.IncomingMessage) => {
 });
 
 const app = connect();
-app.use(bodyParser.json({limit: config.body_limit_size}));
-app.use(bodyParser.urlencoded({extended: true, limit: config.body_limit_size}));
+app.use(bodyParser.json({limit: config.bodyLimitSize}));
+app.use(bodyParser.urlencoded({extended: true, limit: config.bodyLimitSize}));
 app.use((req, res) => proxy.web(req, res, {
   changeOrigin: true,
 }));

@@ -7,14 +7,32 @@ services:
       DEBUG: 'true'
       AUTH_MODE: APPEND
       LOCAL_PORT: 1337
-      TARGET_HOST: mycareersfuture.sg
-      TARGET_PORT: 443
-      APP_ID: test
-      L1_INTERNAL: 'true'
-      L1_SECRET: secret
-      L2_INTERNAL: 'false'
-      L2_KEY_FILE: 
-      L2_KEY_STRING: 
+      DEBUG: true
+      SECURE: false
+      # Forward proxy settings
+      #HTTP_PROXY: https://abc:abc@10.10.10.10:333
+      #USE_PROXY_AGENT: true
+      #TO_PROXY: true
+      # First Gateway
+      GATEWAY_1_HOST: <yourproject>.api.xxx.sg
+      GATEWAY_1_SIGNING_HOST: <yourproject>.e.api.xxx.sg
+      GATEWAY_1_PORT: 443
+      GATEWAY_1_TYPE: EXTERNAL
+      GATEWAY_1_URL_PREFIX: app-internet
+      GATEWAY_1_APP_ID: app-id1
+      #GATEWAY_1_SECRET: private.pem
+      #GATEWAY_1_KEY_STRING:
+      #GATEWAY_1_KEY_FILE: /private.pem
+      # Second Gateway
+      GATEWAY_2_HOST: <yourproject>.api.xxx.sg
+      GATEWAY_2_SIGNING_HOST: <yourproject>.i.api.xxx.sg
+      GATEWAY_2_PORT: 443
+      GATEWAY_2_TYPE: INTERNAL
+      GATEWAY_2_URL_PREFIX: app-intranet
+      GATEWAY_2_APP_ID: app-id2
+      #GATEWAY_2_SECRET:
+      #GATEWAY_2_KEY_STRING:
+      #GATEWAY_2_KEY_FILE: /private.pem
     expose:
       - "1337"
     ports:

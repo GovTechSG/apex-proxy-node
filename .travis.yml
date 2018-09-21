@@ -50,5 +50,5 @@ jobs:
         - git checkout ${TRAVIS_BRANCH};
         - 'sed -i "1 s/^.*/FROM govtechsg\/${IMAGE_NAME}:${CURRENT_TAG}/" ./Nectar.Dockerfile'
         - git add Nectar.Dockerfile;
-        - 'git commit --allow-empty -m "RELEASE: ${CURRENT_TAG} Image Name: ${IMAGE_NAME}:${CURRENT_TAG}" [ci skip]'
+        - 'git commit --allow-empty -m "RELEASE: ${CURRENT_TAG} Image Name: ${IMAGE_NAME}:${CURRENT_TAG} [ci skip]"'
         - git push -q https://${GH_USERNAME}:${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git;

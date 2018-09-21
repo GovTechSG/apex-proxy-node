@@ -36,15 +36,15 @@ To try it out, first build the application with the above build steps, assuming 
 | DEBUG | Prints out Authorization header signature that is appended into the final request header | boolean | false | No |
 | Secure | If true, check HTTPS certificate for authenticity. *warning* Only turn off if you cannot verify certificates. | boolean | true | No |
 | BODY_LIMIT_SIZE | Increase if you face bodyparser size issues, usually only if you are sending files through the proxy | string | 4200kb | No |
-| AUTH_MODE | Determines if the generated Authorization value is appended or rewritten to the header.  Values accepted - APPEND  - REWRITE   | string | APPEND | No |
+| AUTH_MODE | Determines if the generated Authorization value is appended or rewritten to the header.  Values accepted (APPEND, REWRITE)   | string | APPEND | No |
 | LOCAL_PORT | Port at which your proxy will listen for incoming requests | integer(0-65535) | - | Yes |
 | HTTP_PROXY | Sets the endpoint to the proxy that will your requests will be forwarded to | string | As configured in your environment HTTP_PROXY env var | No |
 | CUSTOM_HTTP_PROXY | Used when you have a default HTTP_PROXY, and you wish to change it to use a separate proxy | string | - | No |
 | USE_PROXY_AGENT | Determines if requests are forwarded to a proxy first, before sent to the APEX endpoint | boolean | false | No |
 | TO_PROXY | Set this to true if USE_PROXY_AGENT is true | boolean | false | No |
-| GATEWAY_1_HOST | URL of the first target endpoint your request will be sent | string | - | Yes |
-| GATEWAY_1_SIGNING_HOST | URL of the first target endpoint that is used to generate the signature | string | - | Yes |
-| GATEWAY_1_TYPE | Values accepted - INTERNAL - EXTERNAL | string | - | Yes |
+| GATEWAY_1_HOST | URL(e.g <yourproject>.api.xxx.sg of the first target endpoint your request will be sent | string | - | Yes |
+| GATEWAY_1_SIGNING_HOST | URL(e.g <yourproject>.e.api.xxx.sg) note that .e or .i is required in the signing as APEX does signing with .e and .i depending on which gateway you are hitting of the first target endpoint that is used to generate the signature | string | - | Yes |
+| GATEWAY_1_TYPE | Values accepted (INTERNAL, EXTERNAL) | string | - | Yes |
 | GATEWAY_1_URL_PREFIX | Path of the URL which is determined in the APEX console(e.g. live12345) | string | - | Yes |
 | GATEWAY_1_APP_ID | App ID which you created in APEX console | string | - | Yes |
 | GATEWAY_1_SECRET | App secret password, used in L1 policies only | string | - | Yes (L1) No (L2) |
@@ -53,13 +53,21 @@ To try it out, first build the application with the above build steps, assuming 
 | GATEWAY_1_PASSPHRASE | Passphrase for the private key | string | - | No (L1) Yes (L2) |
 | GATEWAY_2_HOST | URL of the second target endpoint your request will be sent | string | - | Yes |
 | GATEWAY_2_SIGNING_HOST | URL of the second target endpoint that is used to generate the signature | string | - | Yes |
-| GATEWAY_2_TYPE | Values accepted - INTERNAL - EXTERNAL | string | - | Yes |
+| GATEWAY_2_TYPE | Values accepted (INTERNAL, EXTERNAL) | string | - | Yes |
 | GATEWAY_2_URL_PREFIX | Path of the URL which is determined in the APEX console(e.g. live12345) | string | - | Yes |
 | GATEWAY_2_APP_ID | App ID which you created in APEX console | string | - | Yes |
 | GATEWAY_2_SECRET | App secret password, used in L1 policies only | string | - | Yes (L1) No (L2) |
 | GATEWAY_2_KEY_FILE | Linux Absolute Path to the private key file used in L2 policies only | string | - | No (L1) Yes (L2) |
 | GATEWAY_2_KEY_STRING | Private key string, *warning* Use GATEWAY_2_KEY_FILE preferably instead of this | string | - | No (L1) Yes (L2) |
 | GATEWAY_2_PASSPHRASE | Passphrase for the private key | string | - | No (L1) Yes (L2) |
+
+# Development
+
+> cp .env-example .env
+
+Modify .env file with your configuration variables
+
+> yarn dev
 
 # Deployment
 

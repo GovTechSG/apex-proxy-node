@@ -10,7 +10,7 @@ services:
       DEBUG: true
       SECURE: false
       # Forward proxy settings
-      #HTTP_PROXY: https://abc:abc@10.10.10.10:333
+      #HTTP_PROXY: https://abc:abc@266.266.266.266:333
       #USE_PROXY_AGENT: true
       #TO_PROXY: true
       # First Gateway

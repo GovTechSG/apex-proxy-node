@@ -4,11 +4,10 @@ services:
     container_name: apex_proxy
     build: .
     environment:
-      DEBUG: 'true'
+      DEBUG: "true"
       AUTH_MODE: APPEND
       LOCAL_PORT: 1337
-      DEBUG: true
-      SECURE: false
+      SECURE: "false"
       # Forward proxy settings
       #HTTP_PROXY: https://abc:abc@266.266.266.266:333
       #USE_PROXY_AGENT: true

@@ -1,4 +1,4 @@
-FROM govtechsg/apex-proxy-node:0.37.7
+FROM govtechsg/apex-proxy-node:0.37.8
 
 EXPOSE 1337
 ENTRYPOINT ["yarn", "serve"]

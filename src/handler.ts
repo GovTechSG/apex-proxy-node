@@ -146,6 +146,7 @@ export const proxyHandler = (
     }
     if (bodyData) {
       proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      proxyReq.setHeader('Accept-Encoding', 'gzip, deflate, br');
       proxyReq.write(bodyData);
     }
   }

@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import HttpsProxyAgent from 'https-proxy-agent';
 import connect from 'connect';
+import compression from 'compression';
 import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
 import httpProxy from 'http-proxy';
@@ -8,7 +9,6 @@ import {get} from 'lodash';
 import path from 'path';
 import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
-
 
 // Populate environment variable from dotenv file if applicable
 try {
@@ -47,6 +47,7 @@ proxy.on('error', (err, req: http.IncomingMessage) => {
 });
 
 const app = connect();
+app.use(compression({filter: () => { return true; }}));
 app.use(bodyParser.json({limit: config.bodyLimitSize}));
 app.use(bodyParser.urlencoded({extended: true, limit: config.bodyLimitSize}));
 app.use((req, res) => proxy.web(req, res, {

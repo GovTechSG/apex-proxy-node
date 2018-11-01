@@ -34,4 +34,6 @@ export interface IConfig {
   customHttpProxy? : string;
   useProxyAgent? : boolean;
   toProxy? : boolean;
+  timeout? : number;
+  proxyTimeout? : number;
 }

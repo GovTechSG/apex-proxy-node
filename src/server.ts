@@ -25,6 +25,8 @@ const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
   target: `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}/${config.gateway2UrlPrefix}`,
   secure: config.secure,
+  timeout: config.timeout,
+  proxy_timeout: config.proxyTimeout,
 }, config.useProxyAgent && proxyWithAgentOptions);
 
 console.log({proxyOptions})

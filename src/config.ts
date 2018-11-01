@@ -37,6 +37,8 @@ export const getConfig = ():IConfig => {
     CUSTOM_HTTP_PROXY,
     USE_PROXY_AGENT,
     TO_PROXY,
+    TIMEOUT,
+    PROXY_TIMEOUT,
   } = process.env;
 
   return {
@@ -72,6 +74,8 @@ export const getConfig = ():IConfig => {
     customHttpProxy: CUSTOM_HTTP_PROXY,
     useProxyAgent: isTruthy(USE_PROXY_AGENT),
     toProxy: isTruthy(TO_PROXY),
+    timeout: TIMEOUT ? Number(TIMEOUT) || 30000 : 30000,
+    proxyTimeout: PROXY_TIMEOUT ? Number(PROXY_TIMEOUT) || 30000 : 30000,
   };
 };
 
@@ -83,6 +87,8 @@ export const printConfig = () => {
   console.log(`Use Proxy: ${config.useProxyAgent}`);
   console.log(`Proxy: ${(config.customHttpProxy && 'Custom Proxy') || (config.httpProxy && 'HTTP_PROXY')}`);
   console.log(`toProxy: ${config.toProxy}`);
+  console.log(`timeout: ${config.timeout}`);
+  console.log(`proxyTimeout: ${config.proxyTimeout}`);
   console.log(`Server listening on port ${config.localPort}`);
 };
 

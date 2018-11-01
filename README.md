@@ -60,6 +60,8 @@ To try it out, first build the application with the above build steps, assuming 
 | GATEWAY_2_KEY_FILE | Linux Absolute Path to the private key file used in L2 policies only | string | - | No (L1) Yes (L2) |
 | GATEWAY_2_KEY_STRING | Private key string, *warning* Use GATEWAY_2_KEY_FILE preferably instead of this | string | - | No (L1) Yes (L2) |
 | GATEWAY_2_PASSPHRASE | Passphrase for the private key | string | - | No (L1) Yes (L2) |
+| TIMEOUT | Timeout in millis for inbound requests | number | 30000 | No |
+| PROXY_TIMEOUT | Timeout in millis for outbound requests | number | 30000 | No |
 
 # Development
 

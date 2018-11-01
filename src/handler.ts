@@ -117,7 +117,6 @@ export const proxyHandler = (
   req: http.IncomingMessage,
   config: IConfig
 ) => {
-  console.log('in proxy');
   proxyReq.setHeader('Host', config.gateway1Host);
 
   const gate1Signature = firstGateSignature(req, config);

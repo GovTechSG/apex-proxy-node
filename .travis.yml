@@ -41,7 +41,9 @@ jobs:
         - echo "Current Tag= $CURRENT_TAG";
         - tsc --project ./tsconfig-prod.json
         - docker build -t "${DH_REPO}":"${CURRENT_TAG}" .;
+        - docker tag "${DH_REPO}":"${CURRENT_TAG}" "${DH_REPO}":latest;
         - docker push "${DH_REPO}":"${CURRENT_TAG}";
+        - docker push "${DH_REPO}":latest;
     - stage: nectar
       if: branch = master AND (type IN (push))
       script:

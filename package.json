@@ -28,7 +28,7 @@
     "http-proxy-agent": "^2.1.0",
     "https-proxy-agent": "^2.2.1",
     "lodash": "^4.17.10",
-    "node-apex-api-security": "^0.7.6",
+    "node-apex-api-security": "^1.0.0",
     "querystring": "^0.2.0"
   },
   "devDependencies": {

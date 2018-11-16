@@ -18,6 +18,7 @@ export const sign = ({
   appId,
   httpMethod,
   urlPath,
+  formData,
 }, config?) => {
   let authPrefix;
   if(type === 'INTERNAL'){
@@ -43,6 +44,7 @@ export const sign = ({
     httpMethod,
     authPrefix,
     urlPath,
+    formData,
   };
 
   if(config && config.debug){
@@ -81,6 +83,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     appId: gateway1AppId,
     httpMethod: method,
     urlPath,
+    formData: formData(req)
   }, config);
 };
 
@@ -111,6 +114,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     appId: gateway2AppId,
     httpMethod: method,
     urlPath,
+    formData: formData(req),
   }, config);
 };
 
@@ -156,3 +160,11 @@ export const proxyHandler = (
     }
   }
 };
+
+function formData(req){
+  const headers = get(req,'headers');
+  if (get(headers,'content-type') === 'application/x-www-form-urlencoded') {
+    return req.body
+  }
+  return undefined
+}

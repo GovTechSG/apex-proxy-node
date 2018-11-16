@@ -121,8 +121,12 @@ export const proxyHandler = (
 
   const gate1Signature = firstGateSignature(req, config);
   const gate2Signature = secondGateSignature(req, config);
-  const signature = (gate1Signature && gate2Signature) ?
-  `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
+  let signature = gate1Signature;
+
+  if (!config.gatewayIsSingle) {
+    signature = (gate1Signature && gate2Signature) ?
+        `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
+  }
 
   if(signature && config.mode === MODE.REWRITE){
     proxyReq.setHeader('Authorization', signature);

@@ -7,6 +7,8 @@ export interface IConfig {
   // REWRITE or APPEND Signature to Authorization header
   mode: string;
 
+  gatewayIsSingle? : boolean;
+
   // Target to forward request to
   gateway1Host : string;
   gateway1SigningHost : string;

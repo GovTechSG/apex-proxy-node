@@ -1,10 +1,10 @@
 import bodyParser from 'body-parser';
-import HttpsProxyAgent from 'https-proxy-agent';
-import connect from 'connect';
 import compression from 'compression';
+import connect from 'connect';
 import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
 import httpProxy from 'http-proxy';
+import httpsProxyAgent from 'https-proxy-agent';
 import {get} from 'lodash';
 import path from 'path';
 import {getConfig, printConfig} from './config';
@@ -19,7 +19,7 @@ try {
 
 const config = getConfig();
 const httpProxyValue = config.customHttpProxy || config.httpProxy;
-const httpProxyAgent = httpProxyValue ? new HttpsProxyAgent(httpProxyValue) : false;
+const httpProxyAgent = httpProxyValue ? new httpsProxyAgent(httpProxyValue) : false;
 const proxyWithAgentOptions = { toProxy: config.toProxy, agent: httpProxyAgent};
 const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
@@ -29,7 +29,7 @@ const proxyOptions = Object.assign({
   proxy_timeout: config.proxyTimeout,
 }, config.useProxyAgent && proxyWithAgentOptions);
 
-console.log({proxyOptions})
+console.log({proxyOptions});
 const proxy = httpProxy.createProxyServer(proxyOptions);
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
@@ -49,7 +49,7 @@ proxy.on('error', (err, req: http.IncomingMessage) => {
 });
 
 const app = connect();
-app.use(compression({filter: () => { return true; }}));
+app.use(compression({filter: () => true }));
 app.use(bodyParser.json({limit: config.bodyLimitSize}));
 app.use(bodyParser.urlencoded({extended: true, limit: config.bodyLimitSize}));
 app.use((req, res) => proxy.web(req, res, {

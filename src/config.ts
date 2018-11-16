@@ -11,6 +11,7 @@ export const getConfig = ():IConfig => {
     AUTH_MODE,
     LOCAL_PORT,
 
+    GATEWAY_IS_SINGLE,
     GATEWAY_1_HOST,
     GATEWAY_1_SIGNING_HOST,
     GATEWAY_1_PORT,
@@ -48,6 +49,7 @@ export const getConfig = ():IConfig => {
     mode: AUTH_MODE || DEFAULT_MODE,
     localPort: LOCAL_PORT,
 
+    gatewayIsSingle: isTruthy(GATEWAY_IS_SINGLE),
     gateway1Host: GATEWAY_1_HOST,
     gateway1SigningHost: GATEWAY_1_SIGNING_HOST,
     gateway1Port: GATEWAY_1_PORT,
@@ -84,6 +86,7 @@ export const printConfig = () => {
   console.log(`Debug Mode: ${config.debug}`);
   console.log(`Secure Mode: ${config.secure}`);
   console.log(`Auth Mode: ${config.mode}`);
+  console.log(`Single Gateway: ${config.gatewayIsSingle}`);
   console.log(`Use Proxy: ${config.useProxyAgent}`);
   console.log(`Proxy: ${(config.customHttpProxy && 'Custom Proxy') || (config.httpProxy && 'HTTP_PROXY')}`);
   console.log(`toProxy: ${config.toProxy}`);

@@ -7,7 +7,7 @@ import {
   MODE,
 } from './constants';
 import {IConfig} from './types';
-import {printOpts} from './utils';
+import {printOpts, resolveUrl} from './utils';
 
 export const sign = ({
   type,
@@ -69,7 +69,9 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     gateway1Passphrase,
   } = config;
 
-  const urlPath = `https://${gateway1SigningHost}:${gateway1Port}/${gateway1UrlPrefix}/${gateway2UrlPrefix}${url}`;
+  const urlPath = resolveUrl(`https://${gateway1SigningHost}:${gateway1Port}`,
+      gateway1UrlPrefix,
+      gateway2UrlPrefix, url);
   return sign({
     type: gateway1Type,
     secret: gateway1Secret,
@@ -99,7 +101,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     gateway2Passphrase,
   } = config;
 
-  const urlPath = `https://${gateway2SigningHost}:${gateway2Port}/${gateway2UrlPrefix}${url}`;
+  const urlPath = resolveUrl(`https://${gateway2SigningHost}:${gateway2Port}`, gateway2UrlPrefix, url);
   return sign({
     type: gateway2Type,
     secret: gateway2Secret,

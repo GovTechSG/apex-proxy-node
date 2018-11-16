@@ -1,4 +1,6 @@
-import  {  createHash  }  from  "crypto" ;
+import { createHash } from "crypto";
+import { join } from 'path';
+import { parse, resolve } from 'url';
 
 export const generateSHA512Hash = (data: string): string =>
   createHash('sha512').update(data || '').digest('hex');
@@ -29,3 +31,18 @@ export const printOpts = (opts: any): void =>{
   console.log("Printing opts:", tempOpts);
 };
 
+export const resolveUrl = (urlStub: string, ...urlPathToAdd: string[]): string => {
+  const urlStubObject = parse(urlStub);
+  const {protocol, hostname, port} = urlStubObject;
+  switch (protocol) {
+    case 'http:': // tslint:disable-line no-http-string
+    case 'https:':
+    case 'ftp:':
+      break;
+    default:
+      throw new Error('Protocol was not specified. Prefix :urlStub with "http://" or "https://"');
+  }
+  const hostStub = `${protocol}//${hostname}${port ? `:${port}` : ''}/`;
+  const urlStubPath = urlStubObject.pathname || '/';
+  return resolve(hostStub, join(urlStubPath, ...urlPathToAdd));
+};

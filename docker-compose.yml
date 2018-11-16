@@ -13,6 +13,7 @@ services:
       #USE_PROXY_AGENT: true
       #TO_PROXY: true
       # First Gateway
+      GATEWAY_IS_SINGLE: "true"
       GATEWAY_1_HOST: <yourproject>.api.xxx.sg
       GATEWAY_1_SIGNING_HOST: <yourproject>.e.api.xxx.sg
       GATEWAY_1_PORT: 443

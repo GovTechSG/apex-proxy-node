@@ -138,7 +138,7 @@ export const proxyHandler = (
     proxyReq.setHeader('Authorization', signature);
   }else if(signature && config.mode === MODE.APPEND){
     const authorization = get(req, 'headers.authorization');
-    proxyReq.setHeader('Authorization', authorization ? `${signature}, ${authorization}` : signature);
+    proxyReq.setHeader('Authorization', authorization ? `${authorization}, ${signature}` : signature);
   }
 
   const body = get(req, 'body');

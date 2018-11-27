@@ -1,6 +1,6 @@
 # Apex Proxy Node
 
-[![Build Status](https://travis-ci.org/GovTechSG/apex-proxy-node.svg?branch=master)](https://travis-ci.org/GovTechSG/apex-proxy-node)
+[![Build Status](https://travis-ci.org/GovTechSG/apex-proxy-node.svg?branch=master)](https://travis-ci.org/GovTechSG/apex-proxy-node) [![Greenkeeper badge](https://badges.greenkeeper.io/GovTechSG/apex-proxy-node.svg)](https://greenkeeper.io/)
 
 Proxy with implementation of [node-apex-api-security](https://github.com/GovTechSG/node-apex-api-security) for authentication headers to be added to requests that are proxied through it.
 

@@ -2,6 +2,7 @@ defaultSeverity: error
 extends:
   - tslint:recommended
   - tslint-config-prettier # used to disable formatting rules (done by prettier)
+  - tslint-no-unused-expression-chai
 rules:
   max-line-length: # prettier doesn't handle long string
     - true
@@ -56,5 +57,5 @@ rules:
   promise-must-complete: true
   semicolon: [true, "always"]
   use-named-parameter: true
-rulesDirectory: node_modules/tslint-microsoft-contrib
-
+rulesDirectory:
+  - node_modules/tslint-microsoft-contrib

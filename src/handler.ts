@@ -1,5 +1,4 @@
 import http from 'http';
-import {get} from 'lodash';
 import {ApiSigningUtil} from 'node-apex-api-security';
 import {stringify} from 'querystring';
 import {
@@ -83,7 +82,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     appId: gateway1AppId,
     httpMethod: method,
     urlPath,
-    formData: formData(req)
+    formData: getFormBody(req)
   }, config);
 };
 
@@ -114,7 +113,7 @@ export const secondGateSignature = (req: http.IncomingMessage, config: IConfig):
     appId: gateway2AppId,
     httpMethod: method,
     urlPath,
-    formData: formData(req),
+    formData: getFormBody(req),
   }, config);
 };
 
@@ -137,11 +136,12 @@ export const proxyHandler = (
   if(signature && config.mode === MODE.REWRITE){
     proxyReq.setHeader('Authorization', signature);
   }else if(signature && config.mode === MODE.APPEND){
-    const authorization = get(req, 'headers.authorization');
+    const authorization = req.headers ? req.headers.authorization : undefined;
     proxyReq.setHeader('Authorization', authorization ? `${authorization}, ${signature}` : signature);
   }
 
-  const body = get(req, 'body');
+  // tslint:disable-next-line no-string-literal - body exists, but type doesn't register it
+  const body = req['body'];
   if(body){
     const contentType = proxyReq.getHeader('Content-Type');
     let bodyData;
@@ -161,10 +161,10 @@ export const proxyHandler = (
   }
 };
 
-function formData(req){
-  const headers = get(req,'headers');
-  if (get(headers,'content-type') === 'application/x-www-form-urlencoded') {
-    return req.body
+function getFormBody(req){
+  const headers = req.headers;
+  if (headers['content-type'] === 'application/x-www-form-urlencoded') {
+    return req.body;
   }
-  return undefined
+  return undefined;
 }

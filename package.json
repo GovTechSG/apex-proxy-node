@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "tsc --project ./tsconfig-prod.json",
     "dev": "nodemon -r ts-node/register -e ts src/server.ts",
-    "serve": "node .",
+    "start": "node .",
     "test": "mocha -r ts-node/register $@ ./test/test-e2e.ts",
     "test-watch": "npm run test -- --exit --watch --watch-extensions ts,js",
     "lint": "tslint --project ./tsconfig.json -c tslint.yaml"

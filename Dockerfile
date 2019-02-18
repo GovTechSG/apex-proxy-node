@@ -7,4 +7,4 @@ RUN apk add --no-cache bash git \
   && npm install --production
 
 EXPOSE 1337
-ENTRYPOINT ["npm", "run", "serve"]
+ENTRYPOINT ["npm", "start"]

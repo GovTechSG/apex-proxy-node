@@ -65,15 +65,73 @@ To try it out, first build the application with the above build steps, assuming 
 
 # Development
 
-> cp .env-example .env
+## Setting up
 
-Modify .env file with your configuration variables
+```sh
+cp .env-example .env
+```
 
-> yarn dev
+- Modify .env file with your configuration variables
+
+## Running on local machine
+
+```sh
+npm run dev
+```
+
+- Runs in live-reload mode with `ts-node/register`
+
+## Running tests
+
+```sh
+npm run test
+```
+
+To run the tests in watch mode:
+
+```sh
+npm run test-watch
+```
+
+To run the lint processs, run:
+
+```sh
+npm run lint
+```
+
+## Compiling
+
+```sh
+npm run compile
+```
+
+- This should result in a `./dist` directory being created with the distribution contained inside
+
+## Releasing
+
+```sh
+docker build -t yourname/yourimage:yourtag .;
+docker push yourname/yourimage:yourtag;
+```
+
+- Subsitute `yourname/yourimage:yourtag` with your desired Docker registry URI
+
 
 # Deployment
 
+## Running in production
+After setting up your environment variables as described above, use the following to start the service in production:
+
+```sh
+npm start
+```
+
+> Note that you will need to have run `npm run compile` before that since we are running with `.js` in production
+
+## Nectar
+
 Deploy in Nectar by building with Nectar.Dockerfile
+
 
 # LICENSE
 [MIT LICENSE](https://github.com/GovTechSG/apex-proxy-node/blob/master/LICENSE)

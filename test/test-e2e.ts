@@ -1,13 +1,14 @@
+import {expect} from 'chai';
 import http from 'http';
+import {gzip} from 'node-gzip';
 import request from 'request';
-import {expect, assert} from 'chai';
 
 const TARGET_SERVER_HOST = 'localhost';
 const TARGET_SERVER_PORT = '1336';
-const TARGET_SERVER = `https://${TARGET_SERVER_HOST}:${TARGET_SERVER_PORT}`;
 
 const PROXY_SERVER_HOST = 'localhost';
 const PROXY_SERVER_PORT = '1337';
+// tslint:disable-next-line no-http-string - no need to implement ssl for a test system
 const PROXY_SERVER = `http://${PROXY_SERVER_HOST}:${PROXY_SERVER_PORT}`;
 
 const PREFIX_INTERNAL = 'prefix-internal';
@@ -15,14 +16,15 @@ const PREFIX_EXTERNAL = 'prefix-external';
 
 const asyncRequest = async (uri, opt): Promise<any> => {
   return new Promise((resolve, reject) => {
-    request(uri, opt, (err, res, body) => {
+    request(uri, opt, (err, _res, body,) => {
       if(err){
-        return reject(err);
-      };
-      resolve(body);
+        reject(err);
+      } else {
+        resolve(body);
+      }
     });
   });
-}
+};
 
 describe('test', () => {
   let proxyServer: http.Server;
@@ -66,7 +68,7 @@ describe('test', () => {
       const options = {
         method: 'GET',
         json: true,
-      }
+      };
 
       const {url, method} = await asyncRequest(uri, options);
 
@@ -81,12 +83,48 @@ describe('test', () => {
       const options = {
         method: 'POST',
         json: true,
-      }
+      };
 
       const {url, method} = await asyncRequest(uri, options);
 
       expect(method).to.be.eq('POST');
       expect(url).to.be.eq(`/${PREFIX_INTERNAL}/${PREFIX_EXTERNAL}/some/internal/path`);
+    });
+
+    it('works for POST requests with "application/json" typed data', async () => {
+      const uri = `${PROXY_SERVER}/some/internal/path`;
+      const exampleData = {a: 'fff'};
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(exampleData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      const response = await asyncRequest(uri, options);
+      const responseBody = JSON.parse(response);
+      expect(responseBody.method).to.be.eq('POST');
+      expect(responseBody.url).to.be.eq(`/${PREFIX_INTERNAL}/${PREFIX_EXTERNAL}/some/internal/path`);
+      expect(responseBody.body).to.deep.equal(exampleData);
+    });
+
+    it('works for POST requests with g-zipped "application/json" typed data', async () => {
+      const uri = `${PROXY_SERVER}/some/internal/path`;
+      const exampleData = {a: 'fff'};
+      const exampleBody = await gzip(JSON.stringify(exampleData), {level: 1});
+      const options = {
+        method: 'POST',
+        body: exampleBody,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Encoding': 'gzip',
+        }
+      };
+      const response = await asyncRequest(uri, options);
+      const responseBody = JSON.parse(response);
+      expect(responseBody.statusCode).to.not.equal(400);
+      expect(responseBody.method).to.be.eq('POST');
+      expect(responseBody.url).to.be.eq(`/${PREFIX_INTERNAL}/${PREFIX_EXTERNAL}/some/internal/path`);
     });
   });
 
@@ -96,7 +134,7 @@ describe('test', () => {
       const options = {
         method: 'PUT',
         json: true,
-      }
+      };
 
       const {url, method} = await asyncRequest(uri, options);
 
@@ -111,7 +149,7 @@ describe('test', () => {
       const options = {
         method: 'DELETE',
         json: true,
-      }
+      };
 
       const {url, method} = await asyncRequest(uri, options);
 
@@ -126,7 +164,7 @@ describe('test', () => {
       const options = {
         method: 'OPTIONS',
         json: true,
-      }
+      };
 
       const {url, method} = await asyncRequest(uri, options);
 
@@ -135,7 +173,7 @@ describe('test', () => {
     });
   });
 
-  describe('Generic', ()=> {
+  describe('Generic', () => {
     it('appends authorization headers in APPEND mode', async () => {
       const customAuthorizationHeader = 'meh meh';
       const uri = `${PROXY_SERVER}/some/internal/path`;
@@ -145,7 +183,7 @@ describe('test', () => {
         headers: {
           authorization: customAuthorizationHeader,
         }
-      }
+      };
 
       const {headers} = await asyncRequest(uri, options);
 
@@ -159,7 +197,7 @@ describe('test', () => {
       const options = {
         method: 'POST',
         json: true,
-      }
+      };
 
       const {headers} = await asyncRequest(uri, options);
 
@@ -177,16 +215,16 @@ describe('test', () => {
           number: 12,
           array: [1, 2, 'three'],
         }
-      }
+      };
       const uri = `${PROXY_SERVER}/some/internal/path`;
       const options = {
         method: 'POST',
         json: data,
-      }
+      };
 
       const {body} = await asyncRequest(uri, options);
 
       expect(body).to.be.deep.eq(data);
     });
-  })
+  });
 });

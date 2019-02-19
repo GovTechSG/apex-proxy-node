@@ -5,7 +5,6 @@ import {config as populateProcessEnv} from 'dotenv';
 import http from 'http';
 import httpProxy from 'http-proxy';
 import httpsProxyAgent from 'https-proxy-agent';
-import {get} from 'lodash';
 import path from 'path';
 import {getConfig, printConfig} from './config';
 import {proxyHandler} from './handler';
@@ -33,28 +32,47 @@ console.log({proxyOptions});
 const proxy = httpProxy.createProxyServer(proxyOptions);
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
+  if(config.debug) {
+    console.log(Object.assign({type: 'on.proxyReq'}, {headers:proxyReq.getHeaders()}));
+  }
   proxyHandler(proxyReq, req, config);
 });
 
 proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
   if(config.debug){
-    console.log(get(proxyRes, 'req._header'));
-    console.log(get(proxyRes, 'headers'));
+    console.info('[proxyRes debug]');
+    console.log(Object.assign({type: 'on.proxyRes'}, {headers: proxyRes.headers}, {
+      statusCode: proxyRes.statusCode,
+      statusMessage: proxyRes.statusMessage,
+      httpVersion: proxyRes.httpVersion,
+    }));
   }
 });
 
 proxy.on('error', (err, req: http.IncomingMessage) => {
+  console.info('[proxy error]');
   console.log(err);
   console.log(req);
 });
 
 const app = connect();
-app.use(compression({filter: () => true }));
 app.use(bodyParser.json({limit: config.bodyLimitSize}));
 app.use(bodyParser.urlencoded({extended: true, limit: config.bodyLimitSize}));
 app.use((req, res) => proxy.web(req, res, {
   changeOrigin: true,
+  headers: {
+    'content-encoding': '',
+  }
 }));
+app.use(compression({filter: () => true}));
+app.use((err, _req, res, next) => {
+  if (err) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(err));
+  } else {
+    next();
+  }
+});
 
 export const server = http.createServer(app);
 

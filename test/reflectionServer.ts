@@ -9,10 +9,8 @@ const certificate = fs.readFileSync(path.join(__dirname, './fixtures/server.crt'
 const credentials = {key: privateKey, cert: certificate};
 
 const app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 const reflectRequest = (req, res) => {
   const {
     url,
@@ -47,6 +45,12 @@ app.delete('*', (req, res) => {
 
 app.options('*', (req, res) => {
   reflectRequest(req, res);
+});
+
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  res.status(500);
+  res.json(err);
 });
 
 // export const server = app.listen('1336');

@@ -143,14 +143,14 @@ export const proxyHandler = (
   // tslint:disable-next-line no-string-literal - body exists, but type doesn't register it
   const body = req['body'];
   if(body){
-    const contentType = proxyReq.getHeader('Content-Type');
+    const contentType = String(proxyReq.getHeader('Content-Type'));
     let bodyData;
 
-    if (contentType === 'application/json') {
+    if (contentType.includes('application/json')) {
       bodyData = JSON.stringify(body);
     }
 
-    if (contentType === 'application/x-www-form-urlencoded') {
+    if (contentType.includes('application/x-www-form-urlencoded')) {
       bodyData = stringify(body);
     }
     if (bodyData) {

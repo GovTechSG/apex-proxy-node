@@ -163,7 +163,7 @@ export const proxyHandler = (
 
 function getFormBody(req){
   const headers = req.headers;
-  if (headers['content-type'] === 'application/x-www-form-urlencoded') {
+  if (headers['content-type'].includes('application/x-www-form-urlencoded')) {
     return req.body;
   }
   return undefined;

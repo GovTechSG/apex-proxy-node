@@ -1,10 +1,15 @@
-FROM govtechsg/node:node10-production-latest
+FROM govtechsg/node:node10-development-10.14.1 AS builder
 LABEL maintainer="ryanoolala" \
-      description="Image of apex-proxy-node, does authentication header for use with APEX"
+  description="Image of apex-proxy-node, does authentication header for use with APEX"
 WORKDIR /app
 COPY . /app
-RUN apk add --no-cache bash git \
-  && npm install --production
+RUN  npm install --production
 
+FROM govtechsg/node:node10-production-10.14.1 AS production
+LABEL maintainer="ryanoolala" \
+  description="Image of apex-proxy-node, does authentication header for use with APEX"
+WORKDIR /app
+COPY . /app
+COPY --from=builder /app/node_modules /app/node_modules
 EXPOSE 1337
 ENTRYPOINT ["npm", "start"]

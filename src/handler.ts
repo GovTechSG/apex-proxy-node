@@ -1,12 +1,12 @@
 import http from 'http';
-import {ApiSigningUtil} from 'node-apex-api-security';
-import {stringify} from 'querystring';
+import { ApiSigningUtil } from 'node-apex-api-security';
+import { stringify } from 'querystring';
 import {
   AUTH_PREFIX,
   MODE,
 } from './constants';
-import {IConfig} from './types';
-import {printOpts, resolveUrl} from './utils';
+import { IConfig } from './types';
+import { printOpts, resolveUrl } from './utils';
 
 export const sign = ({
   type,
@@ -20,16 +20,16 @@ export const sign = ({
   formData,
 }, config?) => {
   let authPrefix;
-  if(type === 'INTERNAL'){
-    if(secret){
+  if (type === 'INTERNAL') {
+    if (secret) {
       authPrefix = AUTH_PREFIX.L1.INTERNAL;
-    }else{
+    } else {
       authPrefix = AUTH_PREFIX.L2.INTERNAL;
     }
-  }else{
-    if(secret){
+  } else {
+    if (secret) {
       authPrefix = AUTH_PREFIX.L1.EXTERNAL;
-    }else{
+    } else {
       authPrefix = AUTH_PREFIX.L2.EXTERNAL;
     }
   }
@@ -46,18 +46,18 @@ export const sign = ({
     formData,
   };
 
-  if(config && config.debug){
+  if (config && config.debug) {
     printOpts(opts);
   }
   return ApiSigningUtil.getSignatureToken(opts);
 };
 
 export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
-  if(!config.gateway1AppId || !(config.gateway1Secret
-    || config.gateway1KeyFile || config.gateway1KeyString)) { return; }
-
+  if (!config.gateway1AppId || !(config.gateway1Secret
+    || config.gateway1KeyFile || config.gateway1KeyString)) { console.log("Missing config"); return; }
   const { method, url } = req;
   const {
+    gatewayIsSingle,
     gateway1SigningHost,
     gateway1Port,
     gateway1UrlPrefix,
@@ -70,9 +70,17 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
     gateway1Passphrase,
   } = config;
 
-  const urlPath = resolveUrl(`https://${gateway1SigningHost}:${gateway1Port}`,
+  let urlPath;
+  if (gatewayIsSingle) {
+    urlPath = resolveUrl(`https://${gateway1SigningHost}:${gateway1Port}`,
+      gateway1UrlPrefix,
+      url)
+  } else {
+    urlPath = resolveUrl(`https://${gateway1SigningHost}:${gateway1Port}`,
       gateway1UrlPrefix,
       gateway2UrlPrefix, url);
+  }
+
   return sign({
     type: gateway1Type,
     secret: gateway1Secret,
@@ -87,7 +95,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
 };
 
 export const secondGateSignature = (req: http.IncomingMessage, config: IConfig): string | undefined => {
-  if(!config.gateway2AppId || !(config.gateway2Secret
+  if (!config.gateway2AppId || !(config.gateway2Secret
     || config.gateway2KeyFile || config.gateway2KeyString)) { return; }
 
   const { method, url } = req;
@@ -123,26 +131,25 @@ export const proxyHandler = (
   config: IConfig
 ) => {
   proxyReq.setHeader('Host', config.gateway1Host);
-
   const gate1Signature = firstGateSignature(req, config);
-  const gate2Signature = secondGateSignature(req, config);
   let signature = gate1Signature;
 
   if (!config.gatewayIsSingle) {
+    const gate2Signature = secondGateSignature(req, config);
     signature = (gate1Signature && gate2Signature) ?
-        `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
+      `${gate1Signature}, ${gate2Signature}` : gate1Signature || gate2Signature;
   }
 
-  if(signature && config.mode === MODE.REWRITE){
+  if (signature && config.mode === MODE.REWRITE) {
     proxyReq.setHeader('Authorization', signature);
-  }else if(signature && config.mode === MODE.APPEND){
+  } else if (signature && config.mode === MODE.APPEND) {
     const authorization = req.headers ? req.headers.authorization : undefined;
     proxyReq.setHeader('Authorization', authorization ? `${authorization}, ${signature}` : signature);
   }
 
   // tslint:disable-next-line no-string-literal - body exists, but type doesn't register it
   const body = req['body'];
-  if(body){
+  if (body) {
     const contentType = String(proxyReq.getHeader('Content-Type'));
     let bodyData;
 
@@ -161,9 +168,9 @@ export const proxyHandler = (
   }
 };
 
-function getFormBody(req){
+function getFormBody(req) {
   const headers = req.headers;
-  if (headers['content-type'].includes('application/x-www-form-urlencoded')) {
+  if (headers['content-type'] && headers['content-type'].includes('application/x-www-form-urlencoded')) {
     return req.body;
   }
   return undefined;

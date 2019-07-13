@@ -23,7 +23,7 @@ const httpProxyAgent = httpProxyValue ? new httpsProxyAgent(httpProxyValue) : fa
 const proxyWithAgentOptions = { toProxy: config.toProxy, agent: httpProxyAgent };
 const basePath = `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}`;
 let targetPath = basePath;
-if (config.gatewayIsSingle) {
+if (!config.gatewayIsSingle) {
   targetPath += `/${config.gateway2UrlPrefix}`
 }
 const proxyOptions = Object.assign({
@@ -34,14 +34,18 @@ const proxyOptions = Object.assign({
   proxy_timeout: config.proxyTimeout,
 }, config.useProxyAgent && proxyWithAgentOptions);
 
-console.log({ proxyOptions });
 const proxy = httpProxy.createProxyServer(proxyOptions);
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
   if (config.debug) {
     console.log(Object.assign({ type: 'on.proxyReq' }, { headers: proxyReq.getHeaders() }));
   }
-  proxyHandler(proxyReq, req, config);
+
+  try {
+    return proxyHandler(proxyReq, req, config);
+  } catch (ex) {
+    console.error(ex)
+  }
 });
 
 proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {

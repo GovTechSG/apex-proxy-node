@@ -5,10 +5,8 @@ test/
 .pem
 .key
 docker-compose.yml
-src/
 .travis.yml
 *Dockerfile
-tsconfig.json
 tslint.yaml
 .dockerignore
 node_modules

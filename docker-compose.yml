@@ -2,7 +2,8 @@ version: "3"
 services:
   proxy:
     container_name: apex_proxy
-    build: .
+    # build: .
+    image: apex-proxy-node:prod
     environment:
       DEBUG: "true"
       AUTH_MODE: APPEND
@@ -13,13 +14,13 @@ services:
       #USE_PROXY_AGENT: "true"
       #TO_PROXY: "true"
       # First Gateway
-      # GATEWAY_IS_SINGLE: "true"
-      GATEWAY_1_HOST: <yourproject>.api.xxx.sg
-      GATEWAY_1_SIGNING_HOST: <yourproject>.e.api.xxx.sg
+      GATEWAY_IS_SINGLE: "true"
+      GATEWAY_1_HOST: mcf.api.gov.sg
+      GATEWAY_1_SIGNING_HOST: mcf.e.api.gov.sg
       GATEWAY_1_PORT: 443
       GATEWAY_1_TYPE: EXTERNAL
       GATEWAY_1_URL_PREFIX: app-internet
-      GATEWAY_1_APP_ID: app-id1
+      GATEWAY_1_APP_ID: app-id
       #GATEWAY_1_SECRET: secretpassword
       #GATEWAY_1_KEY_STRING:
       #GATEWAY_1_KEY_FILE: /private.pem

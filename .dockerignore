@@ -1,7 +1,10 @@
 test/
 .git/
+.env
 .env-example
-.docker-compose.yml
+.pem
+.key
+docker-compose.yml
 src/
 .travis.yml
 *Dockerfile

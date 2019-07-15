@@ -74,7 +74,7 @@ export const firstGateSignature = (req: http.IncomingMessage, config: IConfig): 
   if (gatewayIsSingle) {
     urlPath = resolveUrl(`https://${gateway1SigningHost}:${gateway1Port}`,
       gateway1UrlPrefix,
-      url)
+      url);
   } else {
     urlPath = resolveUrl(`https://${gateway1SigningHost}:${gateway1Port}`,
       gateway1UrlPrefix,

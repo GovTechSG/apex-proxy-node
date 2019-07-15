@@ -9,7 +9,8 @@
     "start": "node .",
     "test": "mocha -r ts-node/register $@ ./test/test-e2e.ts",
     "test-watch": "npm run test -- --exit --watch --watch-extensions ts,js",
-    "lint": "tslint --project ./tsconfig.json -c tslint.yaml"
+    "lint": "tslint --project ./tsconfig.json -c tslint.yaml",
+    "lint:fix": "tslint --fix --project ./tsconfig.json -c tslint.yaml"
   },
   "author": "Raymond Yeh <yehjxraymond@gmail.com> (https://geek.sg)",
   "license": "ISC",

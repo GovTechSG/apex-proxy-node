@@ -24,7 +24,7 @@ const proxyWithAgentOptions = { toProxy: config.toProxy, agent: httpProxyAgent }
 const basePath = `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}`;
 let targetPath = basePath;
 if (!config.gatewayIsSingle) {
-  targetPath += `/${config.gateway2UrlPrefix}`
+  targetPath += `/${config.gateway2UrlPrefix}`;
 }
 const proxyOptions = Object.assign({
   // tslint:disable-next-line:max-line-length
@@ -44,7 +44,7 @@ proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) =
   try {
     return proxyHandler(proxyReq, req, config);
   } catch (ex) {
-    console.error(ex)
+    console.error(ex);
   }
 });
 
@@ -68,7 +68,7 @@ proxy.on('error', (err, req: http.IncomingMessage, res) => {
 });
 
 const app = connect();
-app.use((req, res, next) => {
+app.use((req, _, next) => {
   if (req.headers['content-encoding'] === 'gzip') {
     req.on('data', (chunk) => {
       if (!req.rawBody) {

@@ -15,8 +15,8 @@ services:
       #TO_PROXY: "true"
       # First Gateway
       GATEWAY_IS_SINGLE: "true"
-      GATEWAY_1_HOST: mcf.api.gov.sg
-      GATEWAY_1_SIGNING_HOST: mcf.e.api.gov.sg
+      GATEWAY_1_HOST: .api.gov.sg
+      GATEWAY_1_SIGNING_HOST: .e.api.gov.sg
       GATEWAY_1_PORT: 443
       GATEWAY_1_TYPE: EXTERNAL
       GATEWAY_1_URL_PREFIX: app-internet

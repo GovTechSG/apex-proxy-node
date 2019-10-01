@@ -52,7 +52,7 @@ export const getConfig = ():IConfig => {
     gatewayIsSingle: isTruthy(GATEWAY_IS_SINGLE),
     gateway1Host: GATEWAY_1_HOST,
     gateway1SigningHost: GATEWAY_1_SIGNING_HOST,
-    gateway1Port: GATEWAY_1_PORT ? Number(GATEWAY_1_PORT) || 443,
+    gateway1Port: GATEWAY_1_PORT ? Number(GATEWAY_1_PORT) : 443,
     gateway1Type: GATEWAY_1_TYPE,
     gateway1UrlPrefix: GATEWAY_1_URL_PREFIX,
     gateway1AppId: GATEWAY_1_APP_ID,

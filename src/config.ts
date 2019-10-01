@@ -52,7 +52,7 @@ export const getConfig = ():IConfig => {
     gatewayIsSingle: isTruthy(GATEWAY_IS_SINGLE),
     gateway1Host: GATEWAY_1_HOST,
     gateway1SigningHost: GATEWAY_1_SIGNING_HOST,
-    gateway1Port: GATEWAY_1_PORT,
+    gateway1Port: GATEWAY_1_PORT ? Number(GATEWAY_1_PORT) || 443,
     gateway1Type: GATEWAY_1_TYPE,
     gateway1UrlPrefix: GATEWAY_1_URL_PREFIX,
     gateway1AppId: GATEWAY_1_APP_ID,
@@ -63,7 +63,7 @@ export const getConfig = ():IConfig => {
 
     gateway2Host: GATEWAY_2_HOST,
     gateway2SigningHost: GATEWAY_2_SIGNING_HOST,
-    gateway2Port: GATEWAY_2_PORT,
+    gateway2Port: GATEWAY_2_PORT ? Number(GATEWAY_2_PORT) : 443,
     gateway2Type: GATEWAY_2_TYPE,
     gateway2UrlPrefix: GATEWAY_2_URL_PREFIX,
     gateway2AppId: GATEWAY_2_APP_ID,

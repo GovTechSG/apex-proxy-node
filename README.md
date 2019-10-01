@@ -42,8 +42,10 @@ To try it out, first build the application with the above build steps, assuming 
 | CUSTOM_HTTP_PROXY | Used when you have a default HTTP_PROXY, and you wish to change it to use a separate proxy | string | - | No |
 | USE_PROXY_AGENT | Determines if requests are forwarded to a proxy first, before sent to the APEX endpoint | boolean | false | No |
 | TO_PROXY | Set this to true if USE_PROXY_AGENT is true | boolean | false | No |
+| GATEWAY_IS_SINGLE | Use only one gateway, adds the GATEWAY_1 authentication headers without neeeding GATEWAY_2 values and signature | boolean | false | No |
 | GATEWAY_1_HOST | URL(e.g <yourproject>.api.xxx.sg of the first target endpoint your request will be sent | string | - | Yes |
 | GATEWAY_1_SIGNING_HOST | URL(e.g <yourproject>.e.api.xxx.sg) note that .e or .i is required in the signing as APEX does signing with .e and .i depending on which gateway you are hitting of the first target endpoint that is used to generate the signature | string | - | Yes |
+| GATEWAY_1_PORT | Port number for GATEWAY_1, defaults to 443 for https | number | 443 | Yes |
 | GATEWAY_1_TYPE | Values accepted (INTERNAL, EXTERNAL) | string | - | Yes |
 | GATEWAY_1_URL_PREFIX | Path of the URL which is determined in the APEX console(e.g. live12345) | string | - | Yes |
 | GATEWAY_1_APP_ID | App ID which you created in APEX console | string | - | Yes |
@@ -53,6 +55,7 @@ To try it out, first build the application with the above build steps, assuming 
 | GATEWAY_1_PASSPHRASE | Passphrase for the private key | string | - | No (L1) Yes (L2) |
 | GATEWAY_2_HOST | URL of the second target endpoint your request will be sent | string | - | Yes |
 | GATEWAY_2_SIGNING_HOST | URL of the second target endpoint that is used to generate the signature | string | - | Yes |
+| GATEWAY_2_PORT | Port number for GATEWAY_2, defaults to 443 for https | number | 443 | Yes |
 | GATEWAY_2_TYPE | Values accepted (INTERNAL, EXTERNAL) | string | - | Yes |
 | GATEWAY_2_URL_PREFIX | Path of the URL which is determined in the APEX console(e.g. live12345) | string | - | Yes |
 | GATEWAY_2_APP_ID | App ID which you created in APEX console | string | - | Yes |

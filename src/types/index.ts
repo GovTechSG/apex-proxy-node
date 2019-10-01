@@ -12,7 +12,7 @@ export interface IConfig {
   // Target to forward request to
   gateway1Host : string;
   gateway1SigningHost : string;
-  gateway1Port : string;
+  gateway1Port : number;
   gateway1Type? : string;
   gateway1UrlPrefix? : string;
   gateway1AppId? : string;
@@ -23,7 +23,7 @@ export interface IConfig {
 
   gateway2Host : string;
   gateway2SigningHost : string;
-  gateway2Port : string;
+  gateway2Port : number;
   gateway2Type? : string;
   gateway2UrlPrefix? : string;
   gateway2AppId? : string;

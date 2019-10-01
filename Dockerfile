@@ -1,4 +1,4 @@
-FROM govtechsg/node:node10-development-10.14.1 AS builder
+FROM govtechsg/node:node10-development-10.16.2 AS builder
 WORKDIR /app
 COPY . /app
 RUN yarn global add typescript && \
@@ -7,7 +7,7 @@ RUN yarn global add typescript && \
   rm -rf node_modules && \
   yarn install --production
 
-FROM govtechsg/node:node10-production-10.14.1 AS production
+FROM govtechsg/node:node10-production-10.16.2 AS production
 LABEL maintainer="ryanoolala" \
   description="Image of apex-proxy-node, does authentication header for use with APEX"
 WORKDIR /app

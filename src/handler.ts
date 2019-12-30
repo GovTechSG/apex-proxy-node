@@ -132,7 +132,7 @@ export const proxyHandler = (
 ) => {
   proxyReq.setHeader('Host', config.gateway1Host);
   const gate1Signature = firstGateSignature(req, config);
-  let signature = gate1Signature;
+  let signature = gate1Signature || undefined;
 
   if (!config.gatewayIsSingle) {
     const gate2Signature = secondGateSignature(req, config);

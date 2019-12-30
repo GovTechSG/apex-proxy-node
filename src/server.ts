@@ -21,8 +21,9 @@ const config = getConfig();
 const httpProxyValue = config.customHttpProxy || config.httpProxy;
 const httpProxyAgent = httpProxyValue ? new httpsProxyAgent(httpProxyValue) : false;
 const proxyWithAgentOptions = { toProxy: config.toProxy, agent: httpProxyAgent };
-const basePath = `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix}`;
+const basePath = `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix || ""}`;
 let targetPath = basePath;
+console.log(targetPath);
 if (!config.gatewayIsSingle) {
   targetPath += `/${config.gateway2UrlPrefix}`;
 }
@@ -38,6 +39,8 @@ const proxy = httpProxy.createProxyServer(proxyOptions);
 
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
   if (config.debug) {
+    console.log({proxyReq})
+    console.log({req})
     console.log(Object.assign({ type: 'on.proxyReq' }, { headers: proxyReq.getHeaders() }));
   }
 

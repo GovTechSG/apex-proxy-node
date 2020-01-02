@@ -40,6 +40,10 @@ export const getConfig = ():IConfig => {
     TO_PROXY,
     TIMEOUT,
     PROXY_TIMEOUT,
+    PROXY_CERT,
+    PROXY_KEY,
+    PROXY_CA,
+    PROXY_PASSPHRASE,
   } = process.env;
 
   return {
@@ -78,6 +82,10 @@ export const getConfig = ():IConfig => {
     toProxy: isTruthy(TO_PROXY),
     timeout: TIMEOUT ? Number(TIMEOUT) || 30000 : 30000,
     proxyTimeout: PROXY_TIMEOUT ? Number(PROXY_TIMEOUT) || 30000 : 30000,
+    proxyCert: PROXY_CERT ? PROXY_CERT: undefined,
+    proxyKey: PROXY_KEY ? PROXY_KEY : undefined,
+    proxyCA: PROXY_CA ? PROXY_CA : undefined,
+    proxyPassphrase: PROXY_PASSPHRASE,
   };
 };
 

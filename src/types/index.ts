@@ -38,4 +38,8 @@ export interface IConfig {
   toProxy? : boolean;
   timeout? : number;
   proxyTimeout? : number;
+  proxyCert? : string;
+  proxyKey? : string;
+  proxyCA? : string;
+  proxyPassphrase: string;
 }

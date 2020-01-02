@@ -19,6 +19,7 @@
     "compression": "^1.7.3",
     "connect": "^3.6.6",
     "dotenv": "^6.0.0",
+    "fs-extra": "7.0.1",
     "http": "^0.0.0",
     "http-proxy": "ryanoolala/node-http-proxy",
     "http-proxy-agent": "^2.1.0",

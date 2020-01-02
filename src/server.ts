@@ -2,10 +2,12 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import connect from 'connect';
 import { config as populateProcessEnv } from 'dotenv';
-import http from 'http';
+import fs from 'fs';
+import http from 'http'
 import httpProxy from 'http-proxy';
 import httpsProxyAgent from 'https-proxy-agent';
 import path from 'path';
+import URL from 'url';
 import streamArray = require('stream-array');
 import { getConfig, printConfig } from './config';
 import { proxyHandler } from './handler';
@@ -18,29 +20,36 @@ try {
 }
 
 const config = getConfig();
-const httpProxyValue = config.customHttpProxy || config.httpProxy;
-const httpProxyAgent = httpProxyValue ? new httpsProxyAgent(httpProxyValue) : false;
-const proxyWithAgentOptions = { toProxy: config.toProxy, agent: httpProxyAgent };
+const proxyUrl = config.customHttpProxy || config.httpProxy;
+const httpProxyValue = proxyUrl && URL.parse(proxyUrl);
+if (httpProxyValue) {
+  httpProxyValue.protocol = httpProxyValue && httpProxyValue.protocol && httpProxyValue.protocol.replace(/:$/, '');
+}
+const agentOptions = {
+  cert: config.proxyCert && fs.readFileSync(config.proxyCert),
+  key: config.proxyKey && fs.readFileSync(config.proxyKey),
+  passphrase: config.proxyPassphrase,
+  ca: config.proxyCA && fs.readFileSync(config.proxyCA)
+}
+const httpProxyAgent = httpProxyValue ? new httpsProxyAgent({...httpProxyValue, ...agentOptions}) : false;
+const proxyWithAgentOptions = {
+  toProxy: config.toProxy, agent: httpProxyAgent,
+};
 const basePath = `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix || ""}`;
-let targetPath = basePath;
-console.log(targetPath);
+let targetPath = URL.parse(basePath);
 if (!config.gatewayIsSingle) {
-  targetPath += `/${config.gateway2UrlPrefix}`;
+  targetPath.path += `${config.gateway2UrlPrefix}`;
 }
 const proxyOptions = Object.assign({
-  // tslint:disable-next-line:max-line-length
-  target: targetPath,
+  target: {... targetPath,...agentOptions},
   secure: config.secure,
   timeout: config.timeout,
   proxy_timeout: config.proxyTimeout,
 }, config.useProxyAgent && proxyWithAgentOptions);
 
 const proxy = httpProxy.createProxyServer(proxyOptions);
-
 proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
   if (config.debug) {
-    console.log({proxyReq})
-    console.log({req})
     console.log(Object.assign({ type: 'on.proxyReq' }, { headers: proxyReq.getHeaders() }));
   }
 
@@ -51,7 +60,7 @@ proxy.on('proxyReq', (proxyReq: http.ClientRequest, req: http.IncomingMessage) =
   }
 });
 
-proxy.on('proxyRes', (proxyRes: http.IncomingMessage) => {
+proxy.on('proxyRes', (proxyRes: http.IncomingMessage, req: http.IncomingMessage, res: http.ServerResponse) => {
   if (config.debug) {
     console.info('[proxyRes debug]');
     console.log(Object.assign({ type: 'on.proxyRes' }, { headers: proxyRes.headers }, {

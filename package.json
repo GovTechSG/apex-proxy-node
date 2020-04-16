@@ -23,7 +23,7 @@
     "http": "^0.0.0",
     "http-proxy": "ryanoolala/node-http-proxy",
     "http-proxy-agent": "^2.1.0",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^2.2.3",
     "node-apex-api-security": "^1.0.0",
     "querystring": "^0.2.0",
     "stream-array": "^1.1.2"

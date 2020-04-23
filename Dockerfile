@@ -7,7 +7,7 @@ RUN yarn global add typescript && \
   rm -rf node_modules && \
   yarn install --production
 
-FROM 10.20.1-alpine3.11 AS production
+FROM node:10.20.1-alpine3.11 AS production
 LABEL maintainer="ryanoolala" \
   description="Image of apex-proxy-node, does authentication header for use with APEX"
 WORKDIR /app

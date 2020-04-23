@@ -13,8 +13,8 @@ LABEL maintainer="ryanoolala" \
 WORKDIR /app
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules /app/node_modules
-
-RUN rm /usr/local/lib/node_modules/npm/node_modules/
-
+RUN rm -rf /usr/local/lib/node_modules/npm/node_modules/ && \
+  chown -R node:node /app
+USER node
 EXPOSE 1337
 ENTRYPOINT ["node", "dist/server.js"]

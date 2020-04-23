@@ -24,7 +24,7 @@ jobs:
       if: branch = master AND (type IN (pull_request))
       language: node_js
       node_js:
-        - "10.16.2"
+        - "10.20.1"
       script:
         - npm install -g typescript
         - tsc --project ./tsconfig-prod.json
@@ -32,7 +32,7 @@ jobs:
     - stage: build_and_push
       language: node_js
       node_js:
-        - "10.16.2"
+        - "10.20.1"
       if: branch = master AND (type IN (push))
       script:
         - npm install -g typescript

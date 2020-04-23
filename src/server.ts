@@ -31,7 +31,8 @@ const agentOptions = {
   passphrase: config.proxyPassphrase,
   ca: config.proxyCA && fs.readFileSync(config.proxyCA)
 }
-const httpProxyAgent = httpProxyValue ? new httpsProxyAgent({...httpProxyValue, ...agentOptions}) : false;
+// @ts-ignore
+const httpProxyAgent = httpProxyValue ? new httpsProxyAgent({ ...httpProxyValue, ...agentOptions}) : false;
 const proxyWithAgentOptions = {
   toProxy: config.toProxy, agent: httpProxyAgent,
 };

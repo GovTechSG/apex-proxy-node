@@ -25,6 +25,7 @@ const httpProxyValue = proxyUrl && URL.parse(proxyUrl);
 if (httpProxyValue) {
   httpProxyValue.protocol = httpProxyValue && httpProxyValue.protocol && httpProxyValue.protocol.replace(/:$/, '');
 }
+console.log({httpProxyValue})
 const agentOptions = {
   cert: config.proxyCert && fs.readFileSync(config.proxyCert),
   key: config.proxyKey && fs.readFileSync(config.proxyKey),
@@ -39,8 +40,10 @@ const proxyWithAgentOptions = {
 const basePath = `https://${config.gateway1Host}:${config.gateway1Port}/${config.gateway1UrlPrefix || ""}`;
 let targetPath = URL.parse(basePath);
 if (!config.gatewayIsSingle) {
-  targetPath.path += `${config.gateway2UrlPrefix}`;
+  targetPath.path += `/${config.gateway2UrlPrefix}`;
 }
+
+console.log({targetPath})
 const proxyOptions = Object.assign({
   target: {... targetPath,...agentOptions},
   secure: config.secure,

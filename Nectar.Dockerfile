@@ -1,4 +1,4 @@
-FROM govtechsg/apex-proxy-node:0.37.47
+FROM govtechsg/apex-proxy-node:0.37.48
 
 EXPOSE 1337
 ENTRYPOINT ["node", "dist/server.js"]

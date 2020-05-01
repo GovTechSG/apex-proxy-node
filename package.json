@@ -10,7 +10,9 @@
     "test": "mocha -r ts-node/register $@ ./test/test-e2e.ts",
     "test-watch": "npm run test -- --exit --watch --watch-extensions ts,js",
     "lint": "tslint --project ./tsconfig.json -c tslint.yaml",
-    "lint:fix": "tslint --fix --project ./tsconfig.json -c tslint.yaml"
+    "lint:fix": "tslint --fix --project ./tsconfig.json -c tslint.yaml",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Raymond Yeh <yehjxraymond@gmail.com> (https://geek.sg)",
   "license": "ISC",
@@ -26,7 +28,8 @@
     "https-proxy-agent": "^3.0.0",
     "node-apex-api-security": "^1.0.0",
     "querystring": "^0.2.0",
-    "stream-array": "^1.1.2"
+    "stream-array": "^1.1.2",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
@@ -51,5 +54,6 @@
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typedoc": "^0.17.4",
     "typescript": "^3.3.3"
-  }
+  },
+  "snyk": true
 }

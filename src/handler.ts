@@ -141,10 +141,10 @@ export const proxyHandler = (
   }
 
   if (signature && config.mode === MODE.REWRITE) {
-    proxyReq.setHeader('Authorization', signature);
+    proxyReq.setHeader('Authorization', signature.concat(" ", config.basicAuthHeaderValue));
   } else if (signature && config.mode === MODE.APPEND) {
     const authorization = req.headers ? req.headers.authorization : undefined;
-    proxyReq.setHeader('Authorization', authorization ? `${authorization}, ${signature}` : signature);
+    proxyReq.setHeader('Authorization', (authorization ? `${authorization}, ${signature}` : signature).concat(" ", config.basicAuthHeaderValue));
   }
 
   if (config.customHeaderKey && config.customHeaderValue) {

@@ -32,6 +32,7 @@ export interface IConfig {
   gateway2KeyFile? : string;
   gateway2Passphrase? : string;
 
+  basicAuthHeaderValue: string;
   customHeaderKey? : string;
   customHeaderValue? : string;
 

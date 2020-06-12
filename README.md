@@ -42,6 +42,7 @@ To try it out, first build the application with the above build steps, assuming 
 | CUSTOM_HTTP_PROXY | Used when you have a default HTTP_PROXY, and you wish to change it to use a separate proxy | string | - | No |
 | USE_PROXY_AGENT | Determines if requests are forwarded to a proxy first, before sent to the APEX endpoint | boolean | false | No |
 | TO_PROXY | Set this to true if USE_PROXY_AGENT is true | boolean | false | No |
+| BASIC_AUTH_HEADER_VALUE | Adding custom basic auth value into Authorization header | string | - | No |
 | CUSTOM_HEADER_KEY | Adding custom headers such as 'x-api-key` | string | - | No |
 | CUSTOM_HEADER_VALUE | value for the custom header, api key string for example | string | - | No |
 | GATEWAY_IS_SINGLE | Use only one gateway, adds the GATEWAY_1 authentication headers without neeeding GATEWAY_2 values and signature | boolean | false | No |

@@ -32,6 +32,9 @@ export interface IConfig {
   gateway2KeyFile? : string;
   gateway2Passphrase? : string;
 
+  customHeaderKey? : string;
+  customHeaderValue? : string;
+
   httpProxy? : string;
   customHttpProxy? : string;
   useProxyAgent? : boolean;

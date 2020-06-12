@@ -42,6 +42,8 @@ To try it out, first build the application with the above build steps, assuming 
 | CUSTOM_HTTP_PROXY | Used when you have a default HTTP_PROXY, and you wish to change it to use a separate proxy | string | - | No |
 | USE_PROXY_AGENT | Determines if requests are forwarded to a proxy first, before sent to the APEX endpoint | boolean | false | No |
 | TO_PROXY | Set this to true if USE_PROXY_AGENT is true | boolean | false | No |
+| CUSTOM_HEADER_KEY | Adding custom headers such as 'x-api-key` | string | - | No |
+| CUSTOM_HEADER_VALUE | value for the custom header, api key string for example | string | - | No |
 | GATEWAY_IS_SINGLE | Use only one gateway, adds the GATEWAY_1 authentication headers without neeeding GATEWAY_2 values and signature | boolean | false | No |
 | GATEWAY_1_HOST | URL(e.g <yourproject>.api.xxx.sg of the first target endpoint your request will be sent | string | - | Yes |
 | GATEWAY_1_SIGNING_HOST | URL(e.g <yourproject>.e.api.xxx.sg) note that .e or .i is required in the signing as APEX does signing with .e and .i depending on which gateway you are hitting of the first target endpoint that is used to generate the signature | string | - | Yes |

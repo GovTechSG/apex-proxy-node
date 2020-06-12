@@ -147,6 +147,10 @@ export const proxyHandler = (
     proxyReq.setHeader('Authorization', authorization ? `${authorization}, ${signature}` : signature);
   }
 
+  if (config.customHeaderKey && config.customHeaderValue) {
+    proxyReq.setHeader(config.customHeaderKey, config.customHeaderValue);
+  }
+
   // tslint:disable-next-line no-string-literal - body exists, but type doesn't register it
   const body = req['body'];
   if (body) {

@@ -34,6 +34,9 @@ export const getConfig = ():IConfig => {
     GATEWAY_2_KEY_FILE,
     GATEWAY_2_PASSPHRASE,
 
+    CUSTOM_HEADER_KEY,
+    CUSTOM_HEADER_VALUE,
+
     HTTP_PROXY,
     CUSTOM_HTTP_PROXY,
     USE_PROXY_AGENT,
@@ -75,6 +78,10 @@ export const getConfig = ():IConfig => {
     gateway2KeyString: GATEWAY_2_KEY_STRING ? GATEWAY_2_KEY_STRING : undefined,
     gateway2KeyFile: GATEWAY_2_KEY_FILE ? path.join(__dirname, '..', GATEWAY_2_KEY_FILE) : undefined,
     gateway2Passphrase: GATEWAY_2_PASSPHRASE ? GATEWAY_2_PASSPHRASE : undefined,
+
+    customHeaderKey: CUSTOM_HEADER_KEY ? CUSTOM_HEADER_KEY : undefined,
+    customHeaderValue: CUSTOM_HEADER_VALUE ? CUSTOM_HEADER_VALUE : undefined,
+
 
     httpProxy: HTTP_PROXY,
     customHttpProxy: CUSTOM_HTTP_PROXY,

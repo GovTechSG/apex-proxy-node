@@ -1337,10 +1337,10 @@ http-proxy-agent@^2.1.0:
     debug "3.1.0"
 
 http-proxy@ryanoolala/node-http-proxy:
-  version "1.17.0"
-  resolved "https://codeload.github.com/ryanoolala/node-http-proxy/tar.gz/3ac1d15681e3fe389e9db7a5d82153fe6dc9a45f"
+  version "1.18.1"
+  resolved "https://codeload.github.com/ryanoolala/node-http-proxy/tar.gz/75750bad3746707336220369bcbd0b444ec65298"
   dependencies:
-    eventemitter3 "^3.0.0"
+    eventemitter3 "^4.0.0"
     follow-redirects "^1.0.0"
     requires-port "^1.0.0"
 

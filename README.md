@@ -1,3 +1,7 @@
+# Archived
+
+This module is no longer actively maintained and should not be used. Consider implementing the signing library instead.
+
 # Apex Proxy Node
 
 [![Build Status](https://travis-ci.org/GovTechSG/apex-proxy-node.svg?branch=master)](https://travis-ci.org/GovTechSG/apex-proxy-node)
